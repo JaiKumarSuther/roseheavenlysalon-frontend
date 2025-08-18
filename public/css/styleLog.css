@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+
+:root{
+    --main-color:#261ada;
+    --black:#222;
+    --white:#fff;
+    --light-black:#777;
+    --light-white:#fff9;
+    --dark-bg:rgba(0,0,0,.7);
+    --light-bg:#eee;
+    --border:.1rem solid var(--black);
+    --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
+    --text-shadow:0 1.5rem 3rem rgba(0,0,0,.3);
+ }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+ 
+html::-webkit-scrollbar{
+    width: 1rem;
+}
+ 
+html::-webkit-scrollbar-track{
+    background-color: var(--white);
+}
+ 
+html::-webkit-scrollbar-thumb{
+    background-color: var(--main-color);
+}
+ 
+.header{
+    position: sticky;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    background-color: var(--white);
+    display: flex;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    box-shadow: var(--box-shadow);
+    align-items: center;
+    justify-content: space-between;
+ }
+ 
+ .header .logo{
+    font-size: 2.5rem;
+    color:var(--black);
+    margin-left: 3rem;
+ }
+ 
+ .header .navbar a{
+    font-size: 2rem;
+    margin-right: 5rem;
+    color:var(--black);
+ }
+ 
+ .header .navbar a:hover{
+    color:var(--main-color);
+ }
+ 
+ #menu-btn{
+    font-size: 2.5rem;
+    cursor: pointer;
+    color:var(--black);
+    display: none;
+ }
+
+.heading{
+    background-size: cover !important;
+    background-position: center !important;
+    padding-top: 3rem;
+    padding-bottom:5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+ 
+ .heading h1{
+    font-size: 5rem;
+    text-transform: uppercase;
+    color:var(--white);
+    text-shadow: var(--text-shadow);
+ }
+ 
+
+.heading-title{
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+    font-size: 5rem;
+    text-transform: uppercase;
+    color:var(--black);
+ }
+ 
+ .signIn{
+    width: 100%;
+    height: 600px;
+    justify-content: center;
+    align-items: center;
+ }
+
+.signIn .container{
+    justify-content: center;
+    padding:2rem;
+    background: var(--light-bg);
+ }
+ 
+ .signIn .container .login-email{
+    display: flex;
+    flex-wrap: wrap;
+    gap:2rem;
+ }
+ 
+ .signIn .container .login-email .input-group{
+    flex:1 1 41rem;
+ }
+ 
+ .signIn .container .login-email .input-group input{
+    width: 100%;
+    padding:1.2rem 1.4rem;
+    font-size: 2.5rem;
+    color:var(--light-black);
+    text-transform: none;
+    margin-top: 1.5rem;
+    border:var(--border);
+ }
+ 
+ .signIn .container .login-email .input-group input:focus{
+    background: var(--black);
+    color:var(--white);
+ }
+ 
+ .signIn .container .login-email .input-group input:focus::placeholder{
+    color:var(--light-white);
+ }
+ 
+ 
+ .booking .book-form .btn{
+    margin-top: 2rem;
+ }
+ 
+ .signIn .container .login-email .input-group .btn{
+    height: 75px;
+    width: 200px;
+    font-size: 2rem;
+    color:var(--light-black);
+ }
+
+ .signIn .container .login-register-text{
+     font-size: 2.5rem;
+ } 
+ 
+
+
+ .signIn .container .btn{
+   width: 100%;
+   padding:1.2rem 1.4rem;
+   font-size: 2rem;
+   color:var(--light-black);
+   text-transform: none;
+   margin-top: 1.5rem;
+   border:var(--border);
+ }
+ .signIn .container .btn p{
+    font-size: 3rem;
+ }
+ @media (max-width:768px){
+
+    .heading h1{
+       font-size: 4rem;
+    }
+}
+@media (max-width:1200px){
+
+    section{
+       padding:3rem 5%;
+    }
+ 
+ }
+
+ @media (max-width:450px){
+
+    html{
+       font-size: 50%;
+    }
+ 
+    .heading-title{
+       font-size: 3.5rem;
+    }
+
+    .login-register-text{
+       font-size: 2rem;
+    }
+ 
+ }
+
+ 
