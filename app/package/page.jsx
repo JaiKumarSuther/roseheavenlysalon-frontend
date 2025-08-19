@@ -1,18 +1,9 @@
+import Image from "next/image";
+import Link from "next/link";
+
 export default function Services() {
   return (
     <>
-      <section className="header">
-        <a href="/" className="logo">Rose Heavenly Salon and Spa</a>
-        <nav className="navbar">
-          <a href="/about">About Us</a>
-          <a href="/package">Services</a>
-          <a href="/calendar">Calendar</a>
-          <a href="/schedule">Schedule</a>
-          <a href="/account">My Account</a>
-        </nav>
-        <div id="menu-btn" className="fas fa-bars"></div>
-      </section>
-
       <div className="heading" style={{ background: 'url(/images/brush-2.png) no-repeat' }}>
         <h1>Services</h1>
       </div>
@@ -21,7 +12,7 @@ export default function Services() {
         <h1 className="heading-title">our services</h1>
         <div className="box-container">
           <div className="box" id="hair">
-            <div className="image"><img src="/images/hairservice.jpg" alt="" /></div>
+            <div className="image"><Image src="/images/hairservice.jpg" alt="" width={640} height={420} /></div>
             <div className="content">
               <h3>Hair</h3>
               <p>Haircut - ₱50</p>
@@ -39,7 +30,7 @@ export default function Services() {
           </div>
 
           <div className="box">
-            <div className="image"><img src="/images/nailservices.jpg" alt="" /></div>
+            <div className="image"><Image src="/images/nailservices.jpg" alt="" width={640} height={420} /></div>
             <div className="content">
               <h3>Nails</h3>
               <p>Manicure - ₱60</p>
@@ -57,7 +48,7 @@ export default function Services() {
           </div>
 
           <div className="box">
-            <div className="image"><img src="/images/massageservice.jpg" alt="" /></div>
+            <div className="image"><Image src="/images/massageservice.jpg" alt="" width={640} height={420} /></div>
             <div className="content">
               <h3>Massasge</h3>
               <p>Basic Massage (1 hour) - ₱300</p>
@@ -72,7 +63,7 @@ export default function Services() {
           </div>
 
           <div className="box">
-            <div className="image"><img src="/images/facialservice.jpg" alt="" /></div>
+            <div className="image"><Image src="/images/facialservice.jpg" alt="" width={640} height={420} /></div>
             <div className="content">
               <h3>Facial</h3>
               <p>Regular Facial with Vitamin C - ₱300</p>
@@ -89,7 +80,7 @@ export default function Services() {
           </div>
 
           <div className="box">
-            <div className="image"><img src="/images/IPLservices.jpg" alt="" /></div>
+            <div className="image"><Image src="/images/IPLservices.jpg" alt="" width={640} height={420} /></div>
             <div className="content">
               <h3>IPL Hair Removal</h3>
               <p>Under Arms - ₱300</p>
@@ -103,7 +94,7 @@ export default function Services() {
           </div>
 
           <div className="box" id="warts">
-            <div className="image"><img src="/images/wartservice.jpg" alt="" /></div>
+            <div className="image"><Image src="/images/wartservice.jpg" alt="" width={640} height={420} /></div>
             <div className="content">
               <h3>Warts Removal</h3>
               <p>Face - ₱500</p>
@@ -121,39 +112,11 @@ export default function Services() {
         <div className="content">
           <h3></h3>
           <p>The prices indicated for hair services are the starting price. Price range may varies depending on customers hair.</p>
-          <a href="/schedule" className="btn">Book Now</a>
-        </div>
-      </section>
-
-      <section className="footer">
-        <div className="box-container">
-          <div className="box">
-            <h3>Quick links</h3>
-            <a href="/"> <i className="fas fa-angle-right"></i> Home</a>
-            <a href="/about"> <i className="fas fa-angle-right"></i> About</a>
-            <a href="/package"> <i className="fas fa-angle-right"></i> Servies</a>
-            <a href="/schedule"> < i className="fas fa-angle-right"></i> Book</a>
-          </div>
-          <div className="box">
-            <h3>Extra links</h3>
-            <a href="/about"> <i className="fas fa-angle-right"></i> About Us</a>
-            <a href="#"> <i className="fas fa-angle-right"></i> Privacy Policy</a>
-            <a href="#"> <i className="fas fa-angle-right"></i> Terms of Use</a>
-          </div>
-          <div className="box">
-            <h3>Contact info</h3>
-            <a href="#"> <i className="fas fa-phone"></i> +63 968 312 3303 </a>
-            <a href="#"> <i className="fas fa-envelope"></i> rhsalonandspa@gmail.com </a>
-            <a href="#"> <i className="fas fa-map"></i> Dapdap, Bamban, Tarlac </a>
-          </div>
-          <div className="box">
-            <h3>Follow us</h3>
-            <a href="https://www.facebook.com/roseheavenlysalon"> <i className="fab fa-facebook-f"></i> Facebook </a>
-            <a href="#"> <i className="fab fa-instagram"></i> Instagram </a>
-          </div>
+          <Link href="/schedule" className="btn">Book Now</Link>
         </div>
       </section>
     </>
   );
 }
+
 

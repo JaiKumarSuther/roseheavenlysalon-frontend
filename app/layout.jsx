@@ -1,5 +1,7 @@
 import "../public/css/style.css";
 import "../public/css/myAcc-style.css";
+import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 export const metadata = {
   title: "Rose Heavenly Salon and Spa",
@@ -14,7 +16,13 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
       </head>
-      <body>{children}</body>
+      <body>
+        <NavBar />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
+
+

@@ -17,17 +17,6 @@ export default function Schedule() {
   return (
     <>
       <link rel="stylesheet" href="/css/sched-style.css" />
-      <section className="header">
-        <a href="/" className="logo">Rose Heavenly Salon and Spa</a>
-        <nav className="navbar">
-          <a href="/about">About Us</a>
-          <a href="/package">Services</a>
-          <a href="/calendar">Calendar</a>
-          <a href="/schedule">Schedule</a>
-          <a href="/account">My Account</a>
-        </nav>
-        <div id="menu-btn" className="fas fa-bars"></div>
-      </section>
 
       <div className="heading" style={{ background: 'url(/images/header-bg-3.png) no-repeat' }}>
         <h1>Make an Appointment</h1>
@@ -76,4 +65,5 @@ export default function Schedule() {
     </>
   );
 }
+
 

@@ -314,19 +314,13 @@ html::-webkit-scrollbar{
   }
   
   .calendar__days {
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-            flex-flow: column wrap;
-    -webkit-box-align: stretch;
-            align-items: stretch;
+    display: block;
     width: 100%;
     float: none;
-    min-height: 580px;
-    height: 100%;
+    min-height: 0;
+    height: auto;
     font-size: 12px;
-    padding: 0.8rem 0 1rem 1rem;
+    padding: 0.3rem 0 0.4rem 0.8rem;
     background: #f5f7f6;
   }
   @media screen and (min-width: 55em) {
@@ -337,26 +331,28 @@ html::-webkit-scrollbar{
   }
   
   .calendar__top-bar {
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-flex: 32px;
-            flex: 32px 0 0;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    margin-bottom: 0;
   }
   
   .top-bar__days {
     width: 100%;
-    padding: 0 5px;
+    padding: 0 2px 0 2px;
     color: #2d4338;
     font-weight: 100;
     -webkit-font-smoothing: subpixel-antialiased;
-    font-size: 1rem;
+    font-size: 0.8rem;
+    line-height: 1;
   }
   
   .calendar__week {
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-flex: 1;
-            flex: 1 1 0;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, auto);
+    align-items: start;
+    margin: 0;
+    height: 58px;
   }
   
   .calendar__day {
@@ -365,10 +361,12 @@ html::-webkit-scrollbar{
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
             flex-flow: column wrap;
-    -webkit-box-pack: justify;
-            justify-content: space-between;
+    -webkit-box-pack: start;
+            justify-content: flex-start;
     width: 100%;
-    padding: 1.9rem 0.2rem 0.2rem;
+    padding: 0 0.05rem;
+    line-height: 1;
+    gap: 0.05rem;
     cursor: pointer;
   }
   
@@ -378,9 +376,9 @@ html::-webkit-scrollbar{
   
   .calendar__date {
     color: #040605;
-    font-size: 1.7rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    line-height: 0.7;
+    line-height: 1;
   }
   @media screen and (min-width: 55em) {
     .calendar__date {
@@ -400,11 +398,13 @@ html::-webkit-scrollbar{
     color: #040605;
     display: -webkit-box;
     display: flex;
-    font-size: 0.8rem;
+    font-size: 0.65rem;
+    line-height: 1;
+    margin-top: 0rem;
   }
   @media screen and (min-width: 55em) {
     .calendar__task {
-      font-size: 1rem;
+      font-size: 0.75rem;
     }
   }
   .calendar__task.calendar__task--today {

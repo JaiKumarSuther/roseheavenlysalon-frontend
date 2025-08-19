@@ -1,16 +1,13 @@
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+
 export default function ForgotPass() {
+  const [email, setEmail] = useState("");
+  const onSubmit = (e) => { e.preventDefault(); alert(`Reset link sent to ${email} (demo)`); };
   return (
     <>
       <link rel="stylesheet" href="/css/styleLog.css" />
-      <div className="nav">
-        <div className="header">
-          <a href="/" className="logo">Rose Heavenly Salon and Spa</a>
-          <nav className="navbar">
-            <a href="/signup">Back to Login</a>
-            <a href="/">Home</a>
-          </nav>
-        </div>
-      </div>
 
       <div className="heading" style={{ background: 'url(/images/brush-1.png) no-repeat' }}>
         <h1>Forgot Password</h1>
@@ -19,16 +16,19 @@ export default function ForgotPass() {
       <section className="signIn">
         <div className="container">
           <h1 className="heading-title">Forgot Password</h1>
-          <form className="login-email">
+          <form className="login-email" onSubmit={onSubmit}>
             <div className="input-group">
-              <input className="form-control" type="email" name="email" placeholder="Enter email address" required />
+              <input className="form-control" type="email" name="email" placeholder="Enter email address" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
             <div className="input-group">
               <input className="form-control button" type="submit" value="Continue" />
             </div>
+            <div className="login-register-text"><Link href="/login">Back to Login</Link></div>
           </form>
         </div>
       </section>
     </>
   );
 }
+
+
