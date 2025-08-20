@@ -11,31 +11,31 @@ export default function Home() {
       image: "/images/home-slider-2.jpg",
       title: "Your Hair Beautifully",
       subtitle: "Experience luxury and relaxation at Rose Heavenly Salon. Where beauty meets excellence in every service.",
-      overlay: "from-black/60 via-black/40 to-black/60"
+      overlay: "from-black/30 via-black/10 to-black/30"
     },
     {
       image: "/images/home-slider-3.jpg",
       title: "Professional Beauty Services",
       subtitle: "From hair styling to nail art, we provide comprehensive beauty solutions with expert care.",
-      overlay: "from-black/50 via-black/30 to-black/50"
+      overlay: "from-black/20 via-black/5 to-black/20"
     },
     {
       image: "/images/home-slider-5.jpg",
       title: "Luxury Salon Experience",
       subtitle: "Indulge in premium beauty treatments in our elegant and relaxing salon environment.",
-      overlay: "from-black/60 via-black/40 to-black/60"
+      overlay: "from-black/30 via-black/10 to-black/30"
     },
     {
       image: "/images/chairs.jpg",
       title: "Expert Stylists",
       subtitle: "Our team of experienced professionals is dedicated to making you look and feel your absolute best.",
-      overlay: "from-black/60 via-black/40 to-black/60"
+      overlay: "from-black/30 via-black/10 to-black/30"
     },
     {
       image: "/images/spatable2.jpeg",
       title: "Relaxing Treatments",
       subtitle: "Unwind with our therapeutic massage and facial services designed for ultimate relaxation.",
-      overlay: "from-black/50 via-black/30 to-black/50"
+      overlay: "from-black/20 via-black/5 to-black/20"
     }
   ];
 
@@ -128,12 +128,12 @@ export default function Home() {
       {/* Hero Section with Slider */}
       <section className="relative h-screen overflow-hidden">
         {/* Background Pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 via-pink-50/50 to-purple-50/50 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-rose-50/10 via-pink-50/10 to-purple-50/10 z-10"></div>
         
         {/* Floating Elements */}
-        <div className="absolute top-10 left-4 md:top-20 md:left-10 w-12 h-12 md:w-20 md:h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-bounce z-20"></div>
-        <div className="absolute top-20 right-4 md:top-40 md:right-20 w-10 h-10 md:w-16 md:h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-pulse z-20"></div>
-        <div className="absolute bottom-10 left-4 md:bottom-20 md:left-20 w-8 h-8 md:w-12 md:h-12 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-20 animate-bounce z-20" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-10 left-4 md:top-20 md:left-10 w-12 h-12 md:w-20 md:h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-40 animate-bounce z-20 shadow-lg"></div>
+        <div className="absolute top-20 right-4 md:top-40 md:right-20 w-10 h-10 md:w-16 md:h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-40 animate-pulse z-20 shadow-lg"></div>
+        <div className="absolute bottom-10 left-4 md:bottom-20 md:left-20 w-8 h-8 md:w-12 md:h-12 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-40 animate-bounce z-20 shadow-lg" style={{ animationDelay: '1s' }}></div>
 
         {/* Slider */}
         <div className="relative h-full">
@@ -148,7 +148,7 @@ export default function Home() {
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{ backgroundImage: `url('${slide.image}')` }}
               ></div>
-              <div className={`absolute inset-0 bg-gradient-to-br ${slide.overlay}`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-br ${slide.overlay} opacity-40`}></div>
             </div>
           ))}
 
@@ -168,17 +168,17 @@ export default function Home() {
                 </div>
               </div>
               
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in-delay">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in-delay" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0px 0px 10px rgba(0,0,0,0.5)' }}>
                 {slides[currentSlide].title}
               </h1>
-              <p className="text-lg md:text-xl lg:text-2xl text-white/90 mb-8 max-w-3xl mx-auto animate-fade-in-delay">
+              <p className="text-lg md:text-xl lg:text-2xl text-white mb-8 max-w-3xl mx-auto animate-fade-in-delay" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.7), 0px 0px 8px rgba(0,0,0,0.4)' }}>
                 {slides[currentSlide].subtitle}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up">
                 <Link
                   href="/schedule"
-                  className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 inline-flex items-center justify-center"
+                  className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 inline-flex items-center justify-center border border-white/20"
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -187,7 +187,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/package"
-                  className="bg-white/20 backdrop-blur-sm text-white border-2 border-white/30 px-8 py-4 rounded-xl font-semibold hover:bg-white/30 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 inline-flex items-center justify-center"
+                  className="bg-white/30 backdrop-blur-sm text-white border-2 border-white/50 px-8 py-4 rounded-xl font-semibold hover:bg-white/40 transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 inline-flex items-center justify-center"
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
