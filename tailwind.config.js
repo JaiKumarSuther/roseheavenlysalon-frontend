@@ -43,6 +43,9 @@ module.exports = {
           700: '#374151',
           800: '#1f2937',
           900: '#111827',
+        },
+        muted: {
+          foreground: '#6b7280',
         }
       },
       fontFamily: {
@@ -54,6 +57,13 @@ module.exports = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'hero-pattern': "url('/images/chairs.jpg')",
         'salon-bg': "url('/images/spatable2.jpeg')",
+        'header-bg-1': "url('/images/header-bg-1.png')",
+        'header-bg-2': "url('/images/header-bg-2.png')",
+        'header-bg-3': "url('/images/header-bg-3.png')",
+        'gradient-primary': 'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)',
+        'gradient-hero': 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%)',
+        'gradient-card': 'linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%)',
+        'gradient-soft': 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
@@ -76,6 +86,7 @@ module.exports = {
         'medium': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
         'large': '0 10px 40px -10px rgba(0, 0, 0, 0.15), 0 2px 10px -2px rgba(0, 0, 0, 0.04)',
         'rose': '0 10px 25px -5px rgba(236, 72, 153, 0.3), 0 4px 6px -2px rgba(236, 72, 153, 0.1)',
+        'elegant': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
       },
     },
   },

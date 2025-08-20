@@ -108,10 +108,19 @@ export default function Home() {
       description: "Relaxing atmosphere with personalized attention"
     },
     {
-      icon: "💝",
-      title: "Special Offers",
-      description: "Regular promotions and loyalty rewards"
+      icon: "💎",
+      title: "Modern Equipment",
+      description: "State-of-the-art facilities and equipment"
     }
+  ];
+
+  const galleryImages = [
+    "/images/image-1.jpg",
+    "/images/image-2.jpg", 
+    "/images/image-3.jpg",
+    "/images/image-4.jpg",
+    "/images/image-5.jpg",
+    "/images/image-6.jpg"
   ];
 
   return (
@@ -126,13 +135,12 @@ export default function Home() {
               index === currentSlide ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <Image
-              src={slide.image}
-              alt={`Slide ${index + 1}`}
-              fill
-              className="object-cover"
-              priority={index === 0}
-            />
+            <div 
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: `url('${slide.image}')`
+              }}
+            ></div>
             <div className={`absolute inset-0 bg-gradient-to-r ${slide.overlay}`}></div>
           </div>
         ))}
@@ -142,10 +150,10 @@ export default function Home() {
         <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-pulse-slow"></div>
         <div className="absolute bottom-20 left-20 w-12 h-12 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-20 animate-bounce-slow" style={{ animationDelay: '1s' }}></div>
 
-        {/* Hero Content */}
+        {/* Content */}
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            {slides[currentSlide].title.split(' ').map((word, index) => 
+            {slides[currentSlide].title.split(' ').map((word, index) =>
               index === 1 ? (
                 <span key={index} className="bg-gradient-to-r from-rose-400 to-pink-400 bg-clip-text text-transparent">
                   {word}{' '}
@@ -159,10 +167,16 @@ export default function Home() {
             {slides[currentSlide].subtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            <Link href="/schedule" className="btn-primary text-lg px-8 py-4">
+            <Link 
+              href="/schedule" 
+              className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            >
               Book Appointment
             </Link>
-            <Link href="/package" className="btn-secondary text-lg px-8 py-4">
+            <Link 
+              href="/package" 
+              className="bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-white/30"
+            >
               View Services
             </Link>
           </div>
@@ -195,8 +209,8 @@ export default function Home() {
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide 
-                  ? 'bg-white scale-125' 
+                index === currentSlide
+                  ? 'bg-white scale-125'
                   : 'bg-white/50 hover:bg-white/75'
               }`}
               aria-label={`Go to slide ${index + 1}`}
@@ -268,12 +282,12 @@ export default function Home() {
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat group-hover:scale-110 transition-transform duration-500"
+                    style={{
+                      backgroundImage: `url('${service.image}')`
+                    }}
+                  ></div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                   <div className="absolute bottom-4 left-4 right-4">
                     <h3 className="text-white font-semibold text-lg mb-1">
@@ -319,8 +333,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
+      {/* Gallery Section */}
       <section className="section-padding bg-gradient-to-br from-gray-50 to-rose-50">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+              Our Salon Gallery
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Take a look at our beautiful salon environment and the amazing transformations we create.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {galleryImages.map((image, index) => (
+              <div key={index} className="relative group overflow-hidden rounded-xl shadow-soft hover:shadow-large transition-all duration-300">
+                <div className="aspect-square">
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat group-hover:scale-110 transition-transform duration-500"
+                    style={{
+                      backgroundImage: `url('${image}')`
+                    }}
+                  ></div>
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="section-padding bg-white">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
@@ -348,12 +392,12 @@ export default function Home() {
             </div>
             <div className="relative">
               <div className="relative h-96 rounded-2xl overflow-hidden shadow-large">
-                <Image
-                  src="/images/spatable2.jpeg"
-                  alt="Salon Interior"
-                  fill
-                  className="object-cover"
-                />
+                <div 
+                  className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                  style={{
+                    backgroundImage: "url('/images/spatable2.jpeg')"
+                  }}
+                ></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
               </div>
               <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-pulse"></div>

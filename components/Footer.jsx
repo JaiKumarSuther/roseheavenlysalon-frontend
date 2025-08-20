@@ -118,8 +118,8 @@ export default function Footer() {
                 </div>
                 <span className="text-sm">Dapdap, Bamban, Tarlac</span>
               </div>
-            </div>
-          </div>
+        </div>
+        </div>
         </div>
 
         <div className="border-t border-rose-200 mt-12 pt-8 text-center">
