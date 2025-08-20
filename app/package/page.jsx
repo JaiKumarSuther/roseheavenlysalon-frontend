@@ -96,138 +96,138 @@ export default function Services() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
       {/* Hero Section */}
-      <section className="relative py-12 md:py-16 lg:py-20 px-4 overflow-hidden">
+      <section className="relative py-16 md:py-24 lg:py-32 px-4 overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 via-pink-50/50 to-purple-50/50"></div>
         
         {/* Floating Elements */}
-        <div className="absolute top-10 left-4 md:top-20 md:left-10 w-8 h-8 md:w-12 md:h-12 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-pulse"></div>
-        <div className="absolute top-20 right-4 md:top-40 md:right-20 w-6 h-6 md:w-10 md:h-10 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-bounce"></div>
-        <div className="absolute bottom-10 left-4 md:bottom-20 md:left-20 w-6 h-6 md:w-8 md:h-8 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-20 animate-pulse"></div>
+        <div className="absolute top-10 left-4 md:top-20 md:left-10 w-12 h-12 md:w-20 md:h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-bounce"></div>
+        <div className="absolute top-20 right-4 md:top-40 md:right-20 w-10 h-10 md:w-16 md:h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-10 left-4 md:bottom-20 md:left-20 w-8 h-8 md:w-12 md:h-12 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-20 animate-bounce" style={{ animationDelay: '1s' }}></div>
 
         <div className="relative z-10 container mx-auto text-center">
-          <div className="flex justify-center mb-4 md:mb-6">
+          <div className="flex justify-center mb-4 md:mb-6 animate-fade-in">
             <div className="relative">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300">
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300">
+                <svg className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                 </svg>
               </div>
               <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
             </div>
           </div>
-          <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 text-rose-600">
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-6 text-rose-600 animate-fade-in-delay">
             Our Services
           </h1>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed px-2 sm:px-4">
-            Discover our comprehensive range of beauty and wellness treatments
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed px-2 sm:px-4 animate-fade-in-delay">
+            Discover our comprehensive range of beauty and wellness services designed to enhance your natural beauty
           </p>
         </div>
       </section>
 
       {/* Main Services */}
-      <section className="pb-8 sm:pb-12 md:pb-16 lg:pb-20 px-4 -mt-8 md:-mt-12 relative z-20">
+      <section className="pb-8 sm:pb-12 md:pb-16 lg:pb-20 px-4 -mt-10 md:-mt-16 relative z-20">
         <div className="container mx-auto max-w-7xl">
-          <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 md:p-8 border border-white/20 shadow-soft">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {services.map((category, index) => (
-                <div 
-                  key={category.id} 
-                  className="group bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-100 transition-all duration-300 hover:-translate-y-1"
-                >
-                  {/* Header with Image */}
-                  <div className="relative h-48 overflow-hidden rounded-t-2xl">
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-500 group-hover:scale-105"
-                      style={{
-                        backgroundImage: `url('${category.image}')`
-                      }}
-                    ></div>
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                    
-                    {/* Service Count Badge */}
-                    <div className="absolute top-3 right-3">
-                      <div className="bg-rose-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
-                        {category.services.length} Services
-                      </div>
-                    </div>
-                    
-                    {/* Category Title */}
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <h3 className="text-xl font-bold text-white mb-1 drop-shadow-lg">{category.title}</h3>
-                      <div className="w-12 h-0.5 bg-rose-400 rounded-full"></div>
-                    </div>
-                  </div>
+          <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-white/20 shadow-soft animate-fade-in-up">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service, index) => (
+              <div 
+                key={service.id}
+                className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {/* Service Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat group-hover:scale-110 transition-transform duration-500"
+                    style={{
+                      backgroundImage: `url('${service.image}')`
+                    }}
+                  ></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                   
-                  {/* Services Preview */}
-                  <div className="p-4">
-                    <div className="space-y-2 mb-4">
-                      {category.services.slice(0, 3).map((service, index) => {
-                        const [serviceName, price] = service.split(' - ');
-                        return (
-                          <div 
-                            key={index} 
-                            className="flex justify-between items-center py-2 px-3 bg-gray-50 rounded-lg hover:bg-rose-50 transition-colors duration-200"
-                          >
-                            <span className="text-sm text-gray-700 font-medium truncate mr-2">{serviceName}</span>
-                            <span className="text-sm font-bold text-rose-600 whitespace-nowrap">{price}</span>
-                          </div>
-                        );
-                      })}
-                      {category.services.length > 3 && (
-                        <div className="text-center py-2">
-                          <span className="text-xs text-gray-500">+{category.services.length - 3} more services</span>
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* View Details Button */}
-                    <Link 
-                      href={`/services/${category.id}`} 
-                      className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white py-2.5 px-4 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center justify-center text-sm"
-                    >
-                      View All Services
-                      <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </Link>
+                  {/* Service Count Badge */}
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                    <span className="text-sm font-semibold text-gray-800">
+                      {service.services.length} Services
+                    </span>
                   </div>
                 </div>
-              ))}
-            </div>
 
-            {/* Call to Action */}
-            <div className="text-center bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-6 md:p-8 border border-rose-200 shadow-lg">
-              <div className="max-w-3xl mx-auto">
-                <div className="flex justify-center mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-rose-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                {/* Service Content */}
+                <div className="p-6">
+                  {/* Category Title */}
+                  <h3 className="text-xl font-bold text-gray-800 mb-4 group-hover:text-rose-600 transition-colors duration-300">
+                    {service.title}
+                  </h3>
+
+                  {/* Services Preview */}
+                  <div className="space-y-2 mb-6">
+                    {service.services.slice(0, 3).map((serviceItem, idx) => (
+                      <div key={idx} className="flex items-center text-sm text-gray-600">
+                        <div className="w-2 h-2 bg-rose-400 rounded-full mr-3"></div>
+                        <span>{serviceItem}</span>
+                      </div>
+                    ))}
+                    {service.services.length > 3 && (
+                      <div className="text-sm text-rose-600 font-medium">
+                        +{service.services.length - 3} more services
+                      </div>
+                    )}
                   </div>
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold mb-3 text-gray-800">
-                  Ready to Book Your Treatment?
-                </h3>
-                <p className="text-base md:text-lg text-gray-600 mb-6 max-w-2xl mx-auto leading-relaxed">
-                  The prices indicated for hair services are the starting price. Price range may vary depending on customer's hair.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Link href="/schedule" className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center hover:scale-105">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+
+                  {/* View Details Button */}
+                  <Link 
+                    href={`/services/${service.id}`}
+                    className="inline-flex items-center justify-center w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105"
+                  >
+                    View All Services
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
-                    Book Your Appointment
-                  </Link>
-                  <Link href="/about" className="bg-white text-gray-800 border-2 border-rose-200 px-6 py-3 rounded-xl font-semibold hover:bg-rose-50 hover:border-rose-300 transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center justify-center hover:scale-105">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Learn More About Us
                   </Link>
                 </div>
               </div>
+            ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-12 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-8 md:p-12 text-center border border-rose-200">
+            <div className="w-16 h-16 bg-gradient-to-r from-rose-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              Ready to Book Your Appointment?
+            </h2>
+            <p className="text-lg text-gray-600 mb-8">
+              Contact us today to schedule your beauty and wellness session. Our team is ready to help you look and feel your best.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link 
+                href="/schedule" 
+                className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Book Appointment
+              </Link>
+              <Link 
+                href="tel:+639683123303" 
+                className="bg-white text-gray-800 border-2 border-rose-200 px-8 py-4 rounded-xl font-semibold hover:bg-rose-50 hover:border-rose-300 transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center justify-center"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                Call Us
+              </Link>
             </div>
           </div>
         </div>

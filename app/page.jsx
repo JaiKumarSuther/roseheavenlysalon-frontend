@@ -125,307 +125,231 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Slideshow Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Slideshow Background */}
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <div 
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{
-                backgroundImage: `url('${slide.image}')`
-              }}
-            ></div>
-            <div className={`absolute inset-0 bg-gradient-to-r ${slide.overlay}`}></div>
-          </div>
-        ))}
-
+      {/* Hero Section with Slider */}
+      <section className="relative h-screen overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 via-pink-50/50 to-purple-50/50 z-10"></div>
+        
         {/* Floating Elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-bounce-slow"></div>
-        <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-pulse-slow"></div>
-        <div className="absolute bottom-20 left-20 w-12 h-12 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-20 animate-bounce-slow" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-10 left-4 md:top-20 md:left-10 w-12 h-12 md:w-20 md:h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-bounce z-20"></div>
+        <div className="absolute top-20 right-4 md:top-40 md:right-20 w-10 h-10 md:w-16 md:h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-pulse z-20"></div>
+        <div className="absolute bottom-10 left-4 md:bottom-20 md:left-20 w-8 h-8 md:w-12 md:h-12 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-20 animate-bounce z-20" style={{ animationDelay: '1s' }}></div>
 
-        {/* Content */}
-        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-          <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            {slides[currentSlide].title.split(' ').map((word, index) =>
-              index === 1 ? (
-                <span key={index} className="bg-gradient-to-r from-rose-400 to-pink-400 bg-clip-text text-transparent">
-                  {word}{' '}
-                </span>
-              ) : (
-                <span key={index}>{word}{' '}</span>
-              )
-            )}
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed animate-slide-up">
-            {slides[currentSlide].subtitle}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            <Link 
-              href="/schedule" 
-              className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              Book Appointment
-            </Link>
-            <Link 
-              href="/package" 
-              className="bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-white/30"
-            >
-              View Services
-            </Link>
-          </div>
-        </div>
-
-        {/* Navigation Arrows */}
-        <button
-          onClick={goToPreviousSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
-          aria-label="Previous slide"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <button
-          onClick={goToNextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
-          aria-label="Next slide"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-
-        {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
-          {slides.map((_, index) => (
-            <button
+        {/* Slider */}
+        <div className="relative h-full">
+          {slides.map((slide, index) => (
+            <div
               key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide
-                  ? 'bg-white scale-125'
-                  : 'bg-white/50 hover:bg-white/75'
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentSlide ? 'opacity-100' : 'opacity-0'
               }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+            >
+              <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: `url('${slide.image}')` }}
+              ></div>
+              <div className={`absolute inset-0 bg-gradient-to-br ${slide.overlay}`}></div>
+            </div>
           ))}
-        </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 right-8 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="section-padding bg-gradient-to-br from-rose-50 to-pink-50">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-              Why Choose Us
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We provide exceptional beauty services with a commitment to quality, 
-              professionalism, and customer satisfaction.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <div 
-                key={index}
-                className="card p-8 text-center group hover:bg-gradient-to-br hover:from-rose-50 hover:to-pink-50 transition-all duration-500"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {feature.icon}
+          {/* Hero Content */}
+          <div className="relative z-30 h-full flex items-center justify-center text-center px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="animate-fade-in">
+                <div className="flex justify-center mb-6">
+                  <div className="relative">
+                    <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300">
+                      <svg className="w-8 h-8 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {feature.description}
-                </p>
               </div>
-            ))}
+              
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in-delay">
+                {slides[currentSlide].title}
+              </h1>
+              <p className="text-lg md:text-xl lg:text-2xl text-white/90 mb-8 max-w-3xl mx-auto animate-fade-in-delay">
+                {slides[currentSlide].subtitle}
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up">
+                <Link
+                  href="/schedule"
+                  className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 inline-flex items-center justify-center"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Book Appointment
+                </Link>
+                <Link
+                  href="/package"
+                  className="bg-white/20 backdrop-blur-sm text-white border-2 border-white/30 px-8 py-4 rounded-xl font-semibold hover:bg-white/30 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 inline-flex items-center justify-center"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  View Services
+                </Link>
+              </div>
+            </div>
           </div>
+
+          {/* Slider Navigation */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
+            <div className="flex space-x-2">
+              {slides.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 ${
+                    index === currentSlide ? 'bg-white' : 'bg-white/50'
+                  }`}
+                ></button>
+              ))}
+            </div>
+          </div>
+
+          {/* Slider Arrows */}
+          <button
+            onClick={goToPreviousSlide}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-30 p-2 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 hover:scale-110"
+          >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={goToNextSlide}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-30 p-2 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-all duration-300 hover:scale-110"
+          >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+      <section className="py-16 md:py-24 px-4 bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+        <div className="container mx-auto max-w-7xl">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
               Our Services
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover our comprehensive range of beauty and wellness services 
-              designed to make you look and feel your best.
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+              Discover our comprehensive range of beauty and wellness services designed to enhance your natural beauty
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <div 
+              <div
                 key={index}
-                className="card overflow-hidden group"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="relative h-48 overflow-hidden">
-                  <div 
+                  <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat group-hover:scale-110 transition-transform duration-500"
-                    style={{
-                      backgroundImage: `url('${service.image}')`
-                    }}
+                    style={{ backgroundImage: `url('${service.image}')` }}
                   ></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-white font-semibold text-lg mb-1">
-                      {service.title}
-                    </h3>
-                    <p className="text-white/90 text-sm">
-                      {service.description}
-                    </p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                    <span className="text-sm font-semibold text-gray-800">{service.price}</span>
                   </div>
                 </div>
+                
                 <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-bold text-rose-600">
-                      {service.price}
-                    </span>
-                    <Link 
-                      href="/schedule" 
-                      className="text-rose-600 hover:text-rose-700 font-medium text-sm transition-colors"
-                    >
-                      Book Now →
-                    </Link>
-                  </div>
-                  <ul className="space-y-2">
-                    {service.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center text-sm text-gray-600">
-                        <svg className="w-4 h-4 text-rose-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                        {feature}
-                      </li>
+                  <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-rose-600 transition-colors duration-300">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 mb-4">{service.description}</p>
+                  
+                  <div className="space-y-2">
+                    {service.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center text-sm text-gray-600">
+                        <div className="w-2 h-2 bg-rose-400 rounded-full mr-3"></div>
+                        <span>{feature}</span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
+                  
+                  <Link
+                    href="/package"
+                    className="inline-block mt-6 w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl text-center group-hover:scale-105"
+                  >
+                    Learn More
+                  </Link>
                 </div>
               </div>
             ))}
           </div>
-
-          <div className="text-center mt-12">
-            <Link href="/package" className="btn-primary text-lg px-8 py-4">
-              View All Services
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section className="section-padding bg-gradient-to-br from-gray-50 to-rose-50">
-        <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-              Our Salon Gallery
+      {/* Features Section */}
+      <section className="py-16 md:py-24 px-4 bg-white">
+        <div className="container mx-auto max-w-7xl">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
+              Why Choose Us
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Take a look at our beautiful salon environment and the amazing transformations we create.
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+              Experience the difference with our commitment to excellence and personalized care
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {galleryImages.map((image, index) => (
-              <div key={index} className="relative group overflow-hidden rounded-xl shadow-soft hover:shadow-large transition-all duration-300">
-                <div className="aspect-square">
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center bg-no-repeat group-hover:scale-110 transition-transform duration-500"
-                    style={{
-                      backgroundImage: `url('${image}')`
-                    }}
-                  ></div>
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"></div>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="text-center p-6 rounded-2xl hover:bg-rose-50 transition-all duration-300 hover:scale-105 animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h3 className="text-xl font-bold text-gray-800 mb-3">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-gray-800">
-                About Rose Heavenly
-              </h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Welcome to Rose Heavenly Salon, your premier destination for beauty and wellness 
-                services in Tarlac. We are passionate about helping our clients look and feel 
-                their absolute best through our comprehensive range of professional beauty services.
-              </p>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Our team of experienced stylists and beauty professionals are dedicated to 
-                providing you with personalized attention and exceptional results. We use only 
-                the finest products and latest techniques to ensure your complete satisfaction.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/about" className="btn-primary">
-                  Learn More
-                </Link>
-                <Link href="/schedule" className="btn-secondary">
-                  Book Now
-                </Link>
-              </div>
+      {/* Call to Action */}
+      <section className="py-16 md:py-24 px-4 bg-gradient-to-br from-rose-500 to-pink-500">
+        <div className="container mx-auto max-w-4xl text-center">
+          <div className="animate-fade-in">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+              Ready to Transform Your Look?
+            </h2>
+            <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+              Book your appointment today and experience the Rose Heavenly difference
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up">
+              <Link
+                href="/schedule"
+                className="bg-white text-rose-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 inline-flex items-center justify-center"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Book Now
+              </Link>
+              <Link
+                href="tel:+639683123303"
+                className="bg-white/20 backdrop-blur-sm text-white border-2 border-white/30 px-8 py-4 rounded-xl font-semibold hover:bg-white/30 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 inline-flex items-center justify-center"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                Call Us
+              </Link>
             </div>
-            <div className="relative">
-              <div className="relative h-96 rounded-2xl overflow-hidden shadow-large">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                  style={{
-                    backgroundImage: "url('/images/spatable2.jpeg')"
-                  }}
-                ></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-              </div>
-              <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-pulse"></div>
-              <div className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-bounce-slow"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="section-padding bg-gradient-to-r from-rose-600 to-pink-600 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-600/20 to-pink-600/20 opacity-50"></div>
-        
-        <div className="container-custom relative z-10 text-center">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-6">
-            Ready to Transform Your Look?
-          </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Book your appointment today and experience the difference that professional 
-            beauty services can make in your life.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/schedule" className="bg-white text-rose-600 hover:bg-gray-100 font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-large">
-              Book Appointment
-            </Link>
-            <Link href="/package" className="border-2 border-white text-white hover:bg-white hover:text-rose-600 font-semibold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
-              View Services
-            </Link>
           </div>
         </div>
       </section>
