@@ -94,22 +94,39 @@ export default function Calendar() {
         const ymd = `${year}-${pad2(month)}-${pad2(dayCount)}`;
         const eventNum = counts[ymd] || 0;
         const isToday = ymd === toYmd(new Date());
-        const classes = ["calendar__day"]; if (isToday) classes.push("today"); if (eventNum > 0) classes.push("event"); else classes.push("no-event");
+        const isSelected = ymd === selectedDate;
+        
+        const baseClasses = "p-2 text-center cursor-pointer transition-all duration-200 border border-border hover:bg-accent";
+        const dayClasses = isToday 
+          ? `${baseClasses} bg-primary text-primary-foreground font-bold` 
+          : isSelected 
+            ? `${baseClasses} bg-accent border-primary` 
+            : eventNum > 0 
+              ? `${baseClasses} bg-secondary/50` 
+              : baseClasses;
+        
         cell = (
-          <div key={`d-${cb}`} className={classes.join(" ")} onClick={() => onDayClick(dayCount)}>
-            <span className="calendar__date">{dayCount}</span>
-            <span className={`calendar__task${isToday ? " calendar__task--today" : ""}`}>{eventNum} Events</span>
+          <div key={`d-${cb}`} className={dayClasses} onClick={() => onDayClick(dayCount)}>
+            <div className="text-sm font-medium">{dayCount}</div>
+            <div className="text-xs text-muted-foreground">{eventNum} Events</div>
           </div>
         );
         dayCount++;
       } else {
         let inactiveDay; let inactiveLabel;
-        if (cb < currentMonthFirstDay) { const prev = new Date(year, month - 2, 1); const prevMonthTotal = new Date(prev.getFullYear(), prev.getMonth() + 1, 0).getDate(); inactiveDay = prevMonthTotal - (currentMonthFirstDay - 1 - cb); inactiveLabel = "Expired"; }
-        else { inactiveDay = cb - totalDaysOfMonthDisplay; inactiveLabel = "Upcoming"; }
+        if (cb < currentMonthFirstDay) { 
+          const prev = new Date(year, month - 2, 1); 
+          const prevMonthTotal = new Date(prev.getFullYear(), prev.getMonth() + 1, 0).getDate(); 
+          inactiveDay = prevMonthTotal - (currentMonthFirstDay - 1 - cb); 
+          inactiveLabel = "Expired"; 
+        } else { 
+          inactiveDay = cb - totalDaysOfMonthDisplay; 
+          inactiveLabel = "Upcoming"; 
+        }
         cell = (
-          <div key={`i-${cb}`} className="calendar__day inactive">
-            <span className="calendar__date">{inactiveDay}</span>
-            <span className="calendar__task">{inactiveLabel}</span>
+          <div key={`i-${cb}`} className="p-2 text-center text-muted-foreground/50 border border-border">
+            <div className="text-sm">{inactiveDay}</div>
+            <div className="text-xs">{inactiveLabel}</div>
           </div>
         );
       }
@@ -117,7 +134,7 @@ export default function Calendar() {
     }
     const weeks = [];
     for (let i = 0; i < elements.length; i += 7) {
-      weeks.push(<section key={`w-${i}`} className="calendar__week">{elements.slice(i, i + 7)}</section>);
+      weeks.push(<div key={`w-${i}`} className="grid grid-cols-7">{elements.slice(i, i + 7)}</div>);
     }
     return weeks;
   }
@@ -133,67 +150,117 @@ export default function Calendar() {
   }), [selected]);
 
   return (
-    <>
-      <link rel="stylesheet" href="/css/styleCal.css" />
-      <div className="calendar-container">
-        <div id="calendar_div">
-          <div className="calendar-contain">
-            <section className="title-bar">
-              <a className="title-bar__prev" onClick={prevMonth}></a>
-              <div className="title-bar__month">
-                <select className="month-dropdown" value={pad2(month)} onChange={(e) => setMonth(Number(e.target.value))}>
-                  {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (<option key={m} value={pad2(m)}>{monthNames[m - 1]}</option>))}
-                </select>
-              </div>
-              <div className="title-bar__year">
-                <select className="year-dropdown" value={String(year)} onChange={(e) => setYear(Number(e.target.value))}>
-                  {Array.from({ length: 11 }, (_, i) => year - 5 + i).map((y) => (<option key={y} value={y}>{y}</option>))}
-                </select>
-              </div>
-              <a className="title-bar__next" onClick={nextMonth}></a>
-            </section>
+    <div className="min-h-screen bg-gradient-soft">
+      {/* Hero Section */}
+      <section className="relative py-20 px-4 bg-gradient-hero text-white">
+        <div className="container mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-black">Calendar</h1>
+          <p className="text-xl opacity-90 max-w-2xl mx-auto text-black">
+            View and manage your appointments
+          </p>
+        </div>
+      </section>
 
-            <aside className="calendar__sidebar" id="event_list">
-              <div className="content">
-                <h2 className="sidebar__heading">
-                  <span className="calendar__heading-highlight">{sidebarHeading.weekday}</span>
-                  <br />
-                  {sidebarHeading.monthLabel} {pad2(sidebarHeading.day)}
-                </h2>
-                {events.length > 0 && (
-                  <ul className="sidebar__list">
-                    <li className="sidebar__list-item sidebar__list-item--complete">Appointments</li>
-                    {events.map((ev, idx) => (
-                      <li key={idx} className="sidebar__list-item">
-                        <span className="list-item__time">{idx + 1}.</span>
-                        {ev.service1}
-                        <span className="list-item__time"></span>
-                        {ev.service2}
-                        <span className="list-item__time"></span>
-                        {ev.time}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </aside>
+      {/* Calendar Section */}
+      <section className="pb-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="bg-gradient-card rounded-2xl p-8 border border-primary/10 shadow-elegant">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+              {/* Calendar Header */}
+              <div className="lg:col-span-3">
+                <div className="flex items-center justify-between mb-8">
+                  <button 
+                    onClick={prevMonth}
+                    className="p-2 rounded-lg hover:bg-accent transition-colors"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  
+                  <div className="flex items-center space-x-4">
+                    <select 
+                      className="px-4 py-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      value={pad2(month)} 
+                      onChange={(e) => setMonth(Number(e.target.value))}
+                    >
+                      {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+                        <option key={m} value={pad2(m)}>{monthNames[m - 1]}</option>
+                      ))}
+                    </select>
+                    
+                    <select 
+                      className="px-4 py-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      value={String(year)} 
+                      onChange={(e) => setYear(Number(e.target.value))}
+                    >
+                      {Array.from({ length: 11 }, (_, i) => year - 5 + i).map((y) => (
+                        <option key={y} value={y}>{y}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <button 
+                    onClick={nextMonth}
+                    className="p-2 rounded-lg hover:bg-accent transition-colors"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
 
-            <section className="calendar__days">
-              <section className="calendar__top-bar">
-                <span className="top-bar__days">Mon</span>
-                <span className="top-bar__days">Tue</span>
-                <span className="top-bar__days">Wed</span>
-                <span className="top-bar__days">Thu</span>
-                <span className="top-bar__days">Fri</span>
-                <span className="top-bar__days">Sat</span>
-                <span className="top-bar__days">Sun</span>
-              </section>
-              {renderWeeks()}
-            </section>
+                {/* Calendar Grid */}
+                <div className="space-y-2">
+                  {/* Day Headers */}
+                  <div className="grid grid-cols-7 text-center font-semibold text-muted-foreground">
+                    <div className="p-2">Mon</div>
+                    <div className="p-2">Tue</div>
+                    <div className="p-2">Wed</div>
+                    <div className="p-2">Thu</div>
+                    <div className="p-2">Fri</div>
+                    <div className="p-2">Sat</div>
+                    <div className="p-2">Sun</div>
+                  </div>
+                  
+                  {/* Calendar Days */}
+                  <div className="space-y-1">
+                    {renderWeeks()}
+                  </div>
+                </div>
+              </div>
+
+              {/* Sidebar */}
+              <div className="lg:col-span-1">
+                <div className="bg-background rounded-xl p-6 border border-border">
+                  <h2 className="text-xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
+                    <span className="block text-sm text-muted-foreground">{sidebarHeading.weekday}</span>
+                    {sidebarHeading.monthLabel} {pad2(sidebarHeading.day)}
+                  </h2>
+                  
+                  {events.length > 0 ? (
+                    <div className="space-y-3">
+                      <h3 className="font-semibold text-foreground">Appointments</h3>
+                      <ul className="space-y-2">
+                        {events.map((ev, idx) => (
+                          <li key={idx} className="p-3 bg-accent rounded-lg">
+                            <div className="text-sm font-medium">{ev.service1}</div>
+                            {ev.service2 && <div className="text-xs text-muted-foreground">{ev.service2}</div>}
+                            <div className="text-xs text-primary font-medium">{ev.time}</div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground text-sm">No appointments scheduled for this date.</p>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </section>
+    </div>
   );
 }
 
