@@ -3,12 +3,20 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import useAuthStore from "../lib/auth-store";
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { user, isAuthenticated, logout } = useAuthStore();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/');
+  };
 
   useEffect(() => {
     setMenuOpen(false);
@@ -25,10 +33,21 @@ export default function NavBar() {
   const navLinks = [
     { href: "/about", label: "About Us" },
     { href: "/package", label: "Services" },
-    { href: "/calendar", label: "Calendar" },
-    { href: "/schedule", label: "Schedule" },
-    { href: "/login", label: "Sign In" },
+    ...(isAuthenticated ? [
+      { href: "/calendar", label: "Calendar" },
+      { href: "/schedule", label: "Schedule" },
+    ] : []),
   ];
+
+  const authLinks = isAuthenticated 
+    ? [
+        { href: "/account", label: "Account" },
+        { href: "#", label: "Logout", onClick: handleLogout },
+      ]
+    : [
+        { href: "/login", label: "Sign In" },
+        { href: "/signup", label: "Sign Up" },
+      ];
 
   return (
     <header 
@@ -79,6 +98,38 @@ export default function NavBar() {
                 )}
               </Link>
             ))}
+            
+            {/* Auth Links */}
+            {authLinks.map((link) => (
+              link.onClick ? (
+                <button
+                  key={link.href}
+                  onClick={link.onClick}
+                  className="relative font-medium transition-all duration-300 hover:text-rose-600 text-gray-700"
+                >
+                  <span className="hover:translate-y-[-2px] transition-transform duration-200">
+                    {link.label}
+                  </span>
+                </button>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative font-medium transition-all duration-300 hover:text-rose-600 ${
+                    pathname === link.href 
+                      ? 'text-rose-600' 
+                      : 'text-gray-700'
+                  }`}
+                >
+                  <span className="hover:translate-y-[-2px] transition-transform duration-200">
+                    {link.label}
+                  </span>
+                  {pathname === link.href && (
+                    <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-rose-500 to-pink-500"></div>
+                  )}
+                </Link>
+              )
+            ))}
           </div>
 
           {/* Mobile Menu Button */}
@@ -111,6 +162,31 @@ export default function NavBar() {
               >
                 {link.label}
               </Link>
+            ))}
+            
+            {/* Auth Links */}
+            {authLinks.map((link) => (
+              link.onClick ? (
+                <button
+                  key={link.href}
+                  onClick={link.onClick}
+                  className="block w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-rose-50 hover:text-rose-600 text-gray-700"
+                >
+                  {link.label}
+                </button>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`block px-4 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-rose-50 hover:text-rose-600 ${
+                    pathname === link.href 
+                      ? 'bg-rose-50 text-rose-600' 
+                      : 'text-gray-700'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </div>
         </div>

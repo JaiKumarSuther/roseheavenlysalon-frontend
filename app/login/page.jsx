@@ -2,15 +2,31 @@
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { useLogin } from "../../lib/hooks";
+import useAuthStore from "../../lib/auth-store";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const login = useLogin();
+  const { login: authLogin } = useAuthStore();
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    alert(`Login: ${email}`);
+  const onSubmit = async (data) => {
+    try {
+      const response = await login.mutateAsync(data);
+      authLogin(response.data.user, response.data.token);
+      router.push('/account');
+    } catch (error) {
+      // Error is handled by the mutation
+    }
   };
 
   return (
@@ -52,7 +68,7 @@ export default function Login() {
               <p className="text-gray-600">Enter your credentials to continue</p>
             </div>
 
-            <form onSubmit={onSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">
                   Email Address
@@ -60,10 +76,16 @@ export default function Login() {
                 <div className="relative">
                   <input 
                     type="email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 pr-10"
+                    {...register("email", { 
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Invalid email address"
+                      }
+                    })}
+                    className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 pr-10 ${
+                      errors.email ? 'border-red-500' : 'border-gray-300'
+                    }`}
                     placeholder="Enter your email"
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -72,6 +94,9 @@ export default function Login() {
                     </svg>
                   </div>
                 </div>
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -81,10 +106,16 @@ export default function Login() {
                 <div className="relative">
                   <input 
                     type={showPassword ? "text" : "password"} 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 pr-10"
+                    {...register("password", { 
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters"
+                      }
+                    })}
+                    className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 pr-10 ${
+                      errors.password ? 'border-red-500' : 'border-gray-300'
+                    }`}
                     placeholder="Enter your password"
                   />
                   <button
@@ -104,6 +135,9 @@ export default function Login() {
                     )}
                   </button>
                 </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                )}
               </div>
 
               <div className="flex items-center justify-between">
@@ -118,9 +152,17 @@ export default function Login() {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                disabled={login.isPending}
+                className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Sign In
+                {login.isPending ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    Signing In...
+                  </div>
+                ) : (
+                  'Sign In'
+                )}
               </button>
             </form>
 

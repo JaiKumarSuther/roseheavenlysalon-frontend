@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useGetCalendarCounts, useGetCalendarEvents } from "../../lib/hooks";
 
 const API_BASE = "http://localhost:4000";
 
@@ -44,14 +45,33 @@ const sampleAppointments = {
 };
 
 export default function Calendar() {
-  const [year, setYear] = useState(() => new Date().getFullYear());
-  const [month, setMonth] = useState(() => new Date().getMonth() + 1);
-  const [counts, setCounts] = useState({});
-  const [selectedDate, setSelectedDate] = useState(() => toYmd(new Date()));
-  const [events, setEvents] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // Set default to August 2025 since that's where the booking is
+  const [year, setYear] = useState(2025);
+  const [month, setMonth] = useState(8); // August
+  const [selectedDate, setSelectedDate] = useState('2025-08-30'); // Set to the date with booking
   const [isMonthOpen, setIsMonthOpen] = useState(false);
   const [isYearOpen, setIsYearOpen] = useState(false);
+
+  // Use React Query hooks
+  const { data: calendarData, isLoading: isLoadingCounts, error: calendarError, refetch: refetchCounts } = useGetCalendarCounts(year, month);
+  const { data: eventsData, isLoading: isLoadingEvents, error: eventsError, refetch: refetchEvents } = useGetCalendarEvents(selectedDate);
+
+
+
+  const counts = useMemo(() => {
+    if (!calendarData?.counts) {
+      return {};
+    }
+    const map = {};
+    for (const row of calendarData.counts) {
+      // Backend now returns dates in YYYY-MM-DD format
+      const ymd = row.d;
+      map[ymd] = row.c;
+    }
+    return map;
+  }, [calendarData]);
+
+  const events = eventsData?.events || eventsData || [];
 
   const firstOfMonth = useMemo(() => new Date(year, month - 1, 1), [year, month]);
   const lastOfMonth = useMemo(() => new Date(year, month, 0), [year, month]);
@@ -64,45 +84,10 @@ export default function Calendar() {
   }, [firstOfMonth, lastOfMonth]);
 
   useEffect(() => {
-    const controller = new AbortController();
-    setIsLoading(true);
-    (async () => {
-      try {
-        const res = await fetch(`${API_BASE}/api/calendar?year=${year}&month=${month}`, { signal: controller.signal });
-        if (!res.ok) return;
-        const data = await res.json();
-        const map = {};
-        for (const row of data.counts || []) {
-          const ymd = typeof row.d === "string" ? row.d.substring(0, 10) : toYmd(new Date(row.d));
-          map[ymd] = row.c;
-        }
-        setCounts(map);
-      } catch {}
-      finally {
-        setIsLoading(false);
-      }
-    })();
-    return () => controller.abort();
-  }, [year, month]);
-
-  useEffect(() => {
     const ymd = `${year}-${pad2(month)}-01`;
     const [sy, sm] = (selectedDate || '').split('-');
     if (Number(sy) !== year || Number(sm) !== month) setSelectedDate(ymd);
   }, [year, month]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    (async () => {
-      try {
-        const res = await fetch(`${API_BASE}/api/calendar/events?date=${selectedDate}`, { signal: controller.signal });
-        if (!res.ok) return;
-        const data = await res.json();
-        setEvents(data.events || []);
-      } catch {}
-    })();
-    return () => controller.abort();
-  }, [selectedDate]);
 
   const getDayClass = (date, isCurrentMonth) => {
     const ymd = toYmd(date);
@@ -119,7 +104,7 @@ export default function Calendar() {
     } else if (isToday) {
       baseClass += " bg-rose-100 text-rose-700 rounded-lg border-2 border-rose-300";
     } else if (hasEvents) {
-      baseClass += " text-rose-600 font-semibold";
+      baseClass += " text-rose-600 font-semibold bg-rose-50";
     } else {
       baseClass += " text-gray-700";
     }
@@ -276,6 +261,20 @@ export default function Calendar() {
 
             {/* Calendar Grid */}
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              {isLoadingCounts && (
+                <div className="text-center py-4 mb-4">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-rose-500 mx-auto"></div>
+                  <p className="text-gray-600 mt-2">Loading calendar data...</p>
+                </div>
+              )}
+              
+              {calendarError && (
+                <div className="text-center py-4 mb-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-600">Error loading calendar: {calendarError.message}</p>
+                </div>
+              )}
+              
+           
               {/* Day Headers */}
               <div className="grid grid-cols-7 gap-1 mb-2">
                 {dayNames.map((day) => (
@@ -304,9 +303,19 @@ export default function Calendar() {
                           className={getDayClass(date, true)}
                         >
                           <span>{dayNumber}</span>
-                          {counts[toYmd(date)] > 0 && (
-                            <div className="w-2 h-2 bg-rose-500 rounded-full mt-1"></div>
-                          )}
+                          <div className="text-xs mt-1">
+                            {(() => {
+                              const ymd = toYmd(date);
+                              const count = counts[ymd] || 0;
+                              return count > 0 ? (
+                                <span className="bg-rose-500 text-white px-1 py-0.5 rounded-full text-xs">
+                                  {count} {count === 1 ? 'Booking' : 'Bookings'}
+                                </span>
+                              ) : (
+                                <span className="text-gray-400 text-xs">0 Bookings</span>
+                              );
+                            })()}
+                          </div>
                         </button>
                       )}
                     </div>
@@ -327,7 +336,7 @@ export default function Calendar() {
                   })}
                 </h3>
                 
-                {isLoading ? (
+                {isLoadingEvents ? (
                   <div className="text-center py-8">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-rose-500 mx-auto"></div>
                     <p className="text-gray-600 mt-2">Loading appointments...</p>

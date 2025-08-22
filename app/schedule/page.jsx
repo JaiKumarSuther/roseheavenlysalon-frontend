@@ -1,25 +1,33 @@
 "use client";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useCreateBooking } from "../../lib/hooks";
 
 export default function Schedule() {
-  const [form, setForm] = useState({ 
-    name: "", 
-    phone: "", 
-    time: "", 
-    date: "", 
-    service1: "Hair", 
-    service2: "" 
-  });
+  const createBooking = useCreateBooking();
   
-  const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    defaultValues: {
+      service1: "Hair",
+      service2: "",
+    },
+  });
 
-  const book = async () => {
-    const res = await fetch("http://localhost:4000/api/events/book", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, email: "demo@example.com" }),
-    });
-    if (!res.ok) alert("Booking failed"); else alert("Booked");
+  const onSubmit = async (data) => {
+    try {
+      await createBooking.mutateAsync({
+        ...data,
+        email: "guest@example.com", // Default email for guest bookings
+      });
+      reset(); // Reset form after successful booking
+    } catch (error) {
+      // Error is handled by the mutation
+    }
   };
 
   const services = [
@@ -75,40 +83,50 @@ export default function Schedule() {
               <p className="text-gray-600">Fill out the form below to schedule your visit</p>
             </div>
 
-            <form onSubmit={(e) => { e.preventDefault(); book(); }} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Personal Information */}
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Name *
-                    </label>
-                    <input 
-                      type="text" 
-                      placeholder="Enter your name" 
-                      name="name" 
-                      value={form.name} 
-                      onChange={onChange} 
-                      required 
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
-                    />
-                  </div>
+                                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Name *
+                      </label>
+                      <input 
+                        type="text" 
+                        placeholder="Enter your name" 
+                        {...register("name", { required: "Name is required" })}
+                        className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
+                          errors.name ? 'border-red-500' : 'border-gray-300'
+                        }`}
+                      />
+                      {errors.name && (
+                        <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                      )}
+                    </div>
 
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Phone *
-                    </label>
-                    <input 
-                      type="tel" 
-                      placeholder="Enter your phone number" 
-                      name="phone" 
-                      value={form.phone} 
-                      onChange={onChange} 
-                      required 
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
-                    />
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Phone *
+                      </label>
+                      <input 
+                        type="tel" 
+                        placeholder="Enter your phone number" 
+                        {...register("phone", { 
+                          required: "Phone number is required",
+                          minLength: {
+                            value: 10,
+                            message: "Phone number must be at least 10 digits"
+                          }
+                        })}
+                        className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
+                          errors.phone ? 'border-red-500' : 'border-gray-300'
+                        }`}
+                      />
+                      {errors.phone && (
+                        <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+                      )}
+                    </div>
                   </div>
-                </div>
 
                 {/* Appointment Details */}
                 <div className="space-y-4">
@@ -118,12 +136,14 @@ export default function Schedule() {
                     </label>
                     <input 
                       type="date" 
-                      name="date" 
-                      value={form.date} 
-                      onChange={onChange} 
-                      required 
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
+                      {...register("date", { required: "Date is required" })}
+                      className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
+                        errors.date ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    {errors.date && (
+                      <p className="text-red-500 text-sm mt-1">{errors.date.message}</p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -132,12 +152,14 @@ export default function Schedule() {
                     </label>
                     <input 
                       type="time" 
-                      name="time" 
-                      value={form.time} 
-                      onChange={onChange} 
-                      required 
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
+                      {...register("time", { required: "Time is required" })}
+                      className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
+                        errors.time ? 'border-red-500' : 'border-gray-300'
+                      }`}
                     />
+                    {errors.time && (
+                      <p className="text-red-500 text-sm mt-1">{errors.time.message}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -148,16 +170,18 @@ export default function Schedule() {
                   Primary Service *
                 </label>
                 <select 
-                  name="service1" 
-                  value={form.service1} 
-                  onChange={onChange} 
-                  required 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
+                  {...register("service1", { required: "Primary service is required" })}
+                  className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
+                    errors.service1 ? 'border-red-500' : 'border-gray-300'
+                  }`}
                 >
                   {services.map((service) => (
                     <option key={service} value={service}>{service}</option>
                   ))}
                 </select>
+                {errors.service1 && (
+                  <p className="text-red-500 text-sm mt-1">{errors.service1.message}</p>
+                )}
               </div>
 
               <div className="space-y-4">
@@ -165,9 +189,7 @@ export default function Schedule() {
                   Additional Service (Optional)
                 </label>
                 <select 
-                  name="service2" 
-                  value={form.service2} 
-                  onChange={onChange} 
+                  {...register("service2")}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
                 >
                   <option value="">Select additional service</option>
@@ -181,9 +203,17 @@ export default function Schedule() {
               <div className="text-center pt-4">
                 <button 
                   type="submit" 
-                  className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                  disabled={createBooking.isPending}
+                  className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Book Appointment
+                  {createBooking.isPending ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      Booking...
+                    </div>
+                  ) : (
+                    'Book Appointment'
+                  )}
                 </button>
               </div>
             </form>

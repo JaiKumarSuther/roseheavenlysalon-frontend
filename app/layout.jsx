@@ -2,6 +2,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import { ClientProviders } from "../lib/client-providers";
+import AuthMiddleware from "../components/AuthMiddleware";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,9 +45,7 @@ export const metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "your-google-verification-code",
-  },
+  
 };
 
 export default function RootLayout({ children }) {
@@ -58,13 +58,17 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={`${inter.className} antialiased`}>
-        <div className="flex flex-col min-h-screen">
-          <NavBar />
-          <main className="flex-1 pt-20">
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <ClientProviders>
+          <AuthMiddleware>
+            <div className="flex flex-col min-h-screen">
+              <NavBar />
+              <main className="flex-1 pt-20">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </AuthMiddleware>
+        </ClientProviders>
       </body>
     </html>
   );

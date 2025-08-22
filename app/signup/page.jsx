@@ -2,29 +2,42 @@
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { useSignup } from "../../lib/hooks";
 
 export default function Signup() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    password: "",
-    confirmPassword: ""
-  });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const router = useRouter();
+  const signup = useSignup();
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const password = watch("password");
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    alert(`Signup: ${formData.email}`);
+  const onSubmit = async (data) => {
+    try {
+      const result = await signup.mutateAsync({
+        firstname: data.firstName,
+        lastname: data.lastName,
+        username: data.email.split('@')[0], // Generate username from email
+        email: data.email,
+        address: "Not provided", // Default value
+        phone: data.phone,
+        password: data.password,
+      });
+      
+      // User is automatically logged in after signup
+      router.push('/account');
+    } catch (error) {
+      // Error is handled by the mutation
+    }
   };
 
   return (
@@ -66,38 +79,38 @@ export default function Signup() {
               <p className="text-gray-600">Start your beauty journey with us</p>
             </div>
 
-            <form onSubmit={onSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Name Fields */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    First Name
-                  </label>
-                  <input 
-                    type="text" 
-                    name="firstName"
-                    value={formData.firstName} 
-                    onChange={handleChange} 
-                    required
-                    className="input-field"
-                    placeholder="First name"
-                  />
+                              <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      First Name
+                    </label>
+                    <input 
+                      type="text" 
+                      {...register("firstName", { required: "First name is required" })}
+                      className={`input-field ${errors.firstName ? 'border-red-500' : ''}`}
+                      placeholder="First name"
+                    />
+                    {errors.firstName && (
+                      <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Last Name
+                    </label>
+                    <input 
+                      type="text" 
+                      {...register("lastName", { required: "Last name is required" })}
+                      className={`input-field ${errors.lastName ? 'border-red-500' : ''}`}
+                      placeholder="Last name"
+                    />
+                    {errors.lastName && (
+                      <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
+                    )}
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Last Name
-                  </label>
-                  <input 
-                    type="text" 
-                    name="lastName"
-                    value={formData.lastName} 
-                    onChange={handleChange} 
-                    required
-                    className="input-field"
-                    placeholder="Last name"
-                  />
-                </div>
-              </div>
 
               {/* Email */}
               <div className="space-y-2">
@@ -107,11 +120,14 @@ export default function Signup() {
                 <div className="relative">
                   <input 
                     type="email" 
-                    name="email"
-                    value={formData.email} 
-                    onChange={handleChange} 
-                    required
-                    className="input-field pr-10"
+                    {...register("email", { 
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Invalid email address"
+                      }
+                    })}
+                    className={`input-field pr-10 ${errors.email ? 'border-red-500' : ''}`}
                     placeholder="Enter your email"
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -120,6 +136,9 @@ export default function Signup() {
                     </svg>
                   </div>
                 </div>
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                )}
               </div>
 
               {/* Phone */}
@@ -130,11 +149,14 @@ export default function Signup() {
                 <div className="relative">
                   <input 
                     type="tel" 
-                    name="phone"
-                    value={formData.phone} 
-                    onChange={handleChange} 
-                    required
-                    className="input-field pr-10"
+                    {...register("phone", { 
+                      required: "Phone number is required",
+                      minLength: {
+                        value: 10,
+                        message: "Phone number must be at least 10 digits"
+                      }
+                    })}
+                    className={`input-field pr-10 ${errors.phone ? 'border-red-500' : ''}`}
                     placeholder="Enter your phone number"
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -143,6 +165,9 @@ export default function Signup() {
                     </svg>
                   </div>
                 </div>
+                {errors.phone && (
+                  <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+                )}
               </div>
 
               {/* Password */}
@@ -153,11 +178,14 @@ export default function Signup() {
                 <div className="relative">
                   <input 
                     type={showPassword ? "text" : "password"} 
-                    name="password"
-                    value={formData.password} 
-                    onChange={handleChange} 
-                    required
-                    className="input-field pr-10"
+                    {...register("password", { 
+                      required: "Password is required",
+                      minLength: {
+                        value: 8,
+                        message: "Password must be at least 8 characters"
+                      }
+                    })}
+                    className={`input-field pr-10 ${errors.password ? 'border-red-500' : ''}`}
                     placeholder="Create a password"
                   />
                   <button
@@ -177,6 +205,9 @@ export default function Signup() {
                     )}
                   </button>
                 </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                )}
               </div>
 
               {/* Confirm Password */}
@@ -187,11 +218,11 @@ export default function Signup() {
                 <div className="relative">
                   <input 
                     type={showConfirmPassword ? "text" : "password"} 
-                    name="confirmPassword"
-                    value={formData.confirmPassword} 
-                    onChange={handleChange} 
-                    required
-                    className="input-field pr-10"
+                    {...register("confirmPassword", { 
+                      required: "Please confirm your password",
+                      validate: value => value === password || "Passwords do not match"
+                    })}
+                    className={`input-field pr-10 ${errors.confirmPassword ? 'border-red-500' : ''}`}
                     placeholder="Confirm your password"
                   />
                   <button
@@ -211,6 +242,9 @@ export default function Signup() {
                     )}
                   </button>
                 </div>
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+                )}
               </div>
 
               {/* Terms */}
@@ -234,9 +268,17 @@ export default function Signup() {
 
               <button 
                 type="submit" 
-                className="btn-primary w-full"
+                disabled={signup.isPending}
+                className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create Account
+                {signup.isPending ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    Creating Account...
+                  </div>
+                ) : (
+                  'Create Account'
+                )}
               </button>
 
               <div className="text-center">
