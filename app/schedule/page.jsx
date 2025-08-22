@@ -12,6 +12,7 @@ export default function Schedule() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedService, setSelectedService] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
   
   const {
     register,
@@ -92,10 +93,47 @@ export default function Schedule() {
     return category?.services || [];
   };
 
+  // Handle date selection
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    // Reset time selection when date changes
+    setValue('time', '');
+  };
+
   const onSubmit = async (data) => {
     // Validate that at least one service is selected
     if (selectedServices.length === 0) {
       alert("Please select at least one service.");
+      return;
+    }
+
+    // Enhanced date and time validation
+    const selectedDate = new Date(data.date);
+    const selectedTime = data.time;
+    const now = new Date();
+    
+    // Create the appointment datetime
+    const [hours, minutes] = selectedTime.split(':').map(Number);
+    const appointmentDateTime = new Date(selectedDate);
+    appointmentDateTime.setHours(hours, minutes, 0, 0);
+    
+    // Check if appointment is in the past
+    if (appointmentDateTime <= now) {
+      alert("Cannot book appointments in the past. Please select a future date and time.");
+      return;
+    }
+    
+    // Check if appointment is within business hours (9 AM to 12 AM)
+    const appointmentHour = appointmentDateTime.getHours();
+    if (appointmentHour < 9 || appointmentHour >= 24) {
+      alert("Please select a time between 9:00 AM and 11:30 PM.");
+      return;
+    }
+    
+    // Check if appointment is on a weekend
+    const dayOfWeek = appointmentDateTime.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      alert("We are closed on weekends. Please select a weekday.");
       return;
     }
 
@@ -138,21 +176,40 @@ export default function Schedule() {
     }
   };
 
-  // Generate time slots from 9:00 AM to 12:00 AM (midnight) in 30-minute intervals
-  const generateTimeSlots = () => {
+  // Generate time slots from 9:00 AM to 11:30 PM in 30-minute intervals
+  const generateTimeSlots = (selectedDate = null) => {
     const slots = [];
+    const now = new Date();
+    const isToday = selectedDate && new Date(selectedDate).toDateString() === now.toDateString();
     
     // Morning to evening slots (9 AM to 11:30 PM)
     for (let hour = 9; hour < 24; hour++) {
       // Add full hour slot (e.g., 09:00, 10:00, 11:00, ..., 23:00)
-      slots.push(`${hour.toString().padStart(2, '0')}:00`);
+      const fullHourSlot = `${hour.toString().padStart(2, '0')}:00`;
       
       // Add half hour slot (e.g., 09:30, 10:30, 11:30, ..., 23:30)
-      slots.push(`${hour.toString().padStart(2, '0')}:30`);
+      const halfHourSlot = `${hour.toString().padStart(2, '0')}:30`;
+      
+      if (isToday) {
+        // For today, only show future time slots
+        const fullHourTime = new Date();
+        fullHourTime.setHours(hour, 0, 0, 0);
+        
+        const halfHourTime = new Date();
+        halfHourTime.setHours(hour, 30, 0, 0);
+        
+        if (fullHourTime > now) {
+          slots.push(fullHourSlot);
+        }
+        if (halfHourTime > now) {
+          slots.push(halfHourSlot);
+        }
+      } else {
+        // For future dates, show all slots
+        slots.push(fullHourSlot);
+        slots.push(halfHourSlot);
+      }
     }
-    
-    // Add midnight slot (00:00)
-    slots.push('00:00');
     
     return slots;
   };
@@ -297,6 +354,16 @@ export default function Schedule() {
                   </p>
                 </div>
               )}
+              
+              {/* Booking Information */}
+              <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
+                <h3 className="text-sm font-medium text-amber-800 mb-2">📅 Booking Information</h3>
+                <ul className="text-sm text-amber-700 space-y-1">
+                  <li>• Business Hours: Monday to Friday, 9:00 AM - 11:30 PM</li>
+                  <li>• Closed on weekends (Saturday & Sunday)</li>
+                  <li>• Maximum booking window: 1 year in advance</li>
+                </ul>
+              </div>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -356,14 +423,14 @@ export default function Schedule() {
                         required: "Date is required",
                         validate: (value) => {
                           const selectedDate = new Date(value);
-                          const today = new Date();
-                          today.setHours(0, 0, 0, 0);
+                          const now = new Date();
+                          now.setHours(0, 0, 0, 0);
                           
-                          if (selectedDate < today) {
+                          if (selectedDate < now) {
                             return "Cannot book appointments in the past";
                           }
                           
-                          // Optional: Prevent weekend bookings (Saturday = 6, Sunday = 0)
+                          // Prevent weekend bookings (Saturday = 6, Sunday = 0)
                           const dayOfWeek = selectedDate.getDay();
                           if (dayOfWeek === 0 || dayOfWeek === 6) {
                             return "We are closed on weekends";
@@ -372,7 +439,9 @@ export default function Schedule() {
                           return true;
                         }
                       })}
+                      onChange={(e) => handleDateChange(e.target.value)}
                       min={new Date().toISOString().split('T')[0]} // Prevent past dates
+                      max={new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]} // Max 1 year in future
                       className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
                         errors.date ? 'border-red-500' : 'border-gray-300'
                       }`}
@@ -387,15 +456,33 @@ export default function Schedule() {
                       Time *
                     </label>
                     <select 
-                      {...register("time", { required: "Time is required" })}
+                      {...register("time", { 
+                        required: "Time is required",
+                        validate: (value) => {
+                          if (!value) return "Time is required";
+                          
+                          const [hours, minutes] = value.split(':').map(Number);
+                          
+                          // Check if time is within business hours (9 AM to 11:30 PM)
+                          if (hours < 9 || hours >= 24) {
+                            return "Please select a time between 9:00 AM and 11:30 PM";
+                          }
+                          
+                          return true;
+                        }
+                      })}
                       className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
                         errors.time ? 'border-red-500' : 'border-gray-300'
                       }`}
                     >
                       <option value="">Select a time</option>
-                      {generateTimeSlots().map((time) => (
-                        <option key={time} value={time}>{time}</option>
-                      ))}
+                      {generateTimeSlots(selectedDate).length > 0 ? (
+                        generateTimeSlots(selectedDate).map((time) => (
+                          <option key={time} value={time}>{time}</option>
+                        ))
+                      ) : (
+                        <option value="" disabled>No available times for today</option>
+                      )}
                     </select>
                     {errors.time && (
                       <p className="text-red-500 text-sm mt-1">{errors.time.message}</p>
