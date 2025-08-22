@@ -1,9 +1,10 @@
 "use client";
-import { useGetUser, useGetMyBookings } from "../../lib/hooks";
+import { useGetUser, useGetMyBookings, useCreateBooking } from "../../lib/hooks";
 import useAuthStore from "../../lib/auth-store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useQueryClient } from '@tanstack/react-query';
+import Link from "next/link";
 
 export default function Account() {
   const { isAuthenticated, token, initialize } = useAuthStore();
@@ -11,7 +12,8 @@ export default function Account() {
   const queryClient = useQueryClient();
   const [debugInfo, setDebugInfo] = useState('');
   const { data: user, isLoading: isLoadingUser, refetch: refetchUser, error: userError } = useGetUser();
-  const { data: bookings, isLoading: isLoadingBookings } = useGetMyBookings();
+  const { data: bookings, isLoading: isLoadingBookings, error: bookingsError, refetch: refetchBookings } = useGetMyBookings();
+  const createBookingMutation = useCreateBooking();
 
   useEffect(() => {
     try {
@@ -38,7 +40,34 @@ export default function Account() {
 
   const handleRefreshData = () => {
     queryClient.invalidateQueries(['user']);
+    queryClient.invalidateQueries(['bookings']);
     refetchUser();
+    refetchBookings();
+  };
+
+  const handleCreateTestBooking = async () => {
+    if (!user) return;
+    
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowStr = tomorrow.toISOString().split('T')[0];
+    
+    try {
+      await createBookingMutation.mutateAsync({
+        name: user.firstname && user.lastname ? `${user.firstname} ${user.lastname}` : 'Test User',
+        phone: user.phone || '1234567890',
+        time: '10:00',
+        date: tomorrowStr,
+        service1: 'Hair',
+        service2: 'Haircut',
+        email: user.email
+      });
+      
+      // Refresh bookings after creating
+      refetchBookings();
+    } catch (error) {
+      console.error('Failed to create test booking:', error);
+    }
   };
 
   if (!isAuthenticated) {
@@ -66,12 +95,7 @@ export default function Account() {
               <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-white/20 shadow-soft">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-bold text-gray-800">Profile</h2>
-                  <button
-                    onClick={handleRefreshData}
-                    className="text-sm bg-rose-500 text-white px-3 py-1 rounded-lg hover:bg-rose-600 transition-colors"
-                  >
-                    Refresh
-                  </button>
+
                 </div>
                 
                 {isLoadingUser ? (
@@ -118,7 +142,12 @@ export default function Account() {
             {/* Bookings Section */}
             <div className="lg:col-span-2">
               <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-white/20 shadow-soft">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">My Appointments</h2>
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800">My Appointments</h2>
+                  <div className="text-xs text-gray-500">
+                    {isLoadingBookings ? 'Loading...' : bookings && Array.isArray(bookings) ? `${bookings.length} appointments` : 'No data'}
+                  </div>
+                </div>
                 
                 {isLoadingBookings ? (
                   <div className="text-center py-8">
@@ -128,13 +157,22 @@ export default function Account() {
                 ) : bookings && bookings.length > 0 ? (
                   <div className="space-y-4">
                     {bookings.map((booking) => (
-                      <div
+                      <Link
                         key={booking.id}
-                        className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200"
+                        href={`/booking/${booking.id}`}
+                        className="block border border-gray-200 rounded-lg p-4 hover:shadow-lg hover:border-rose-300 transition-all duration-200 cursor-pointer group"
                       >
-                        <h3 className="font-semibold text-gray-800 mb-2">
-                          {booking.name}
-                        </h3>
+                        <div className="flex justify-between items-start mb-2">
+                          <h3 className="font-semibold text-gray-800 group-hover:text-rose-600 transition-colors duration-200">
+                            {booking.name}
+                          </h3>
+                          <div className="flex items-center text-sm text-gray-500 group-hover:text-rose-500 transition-colors duration-200">
+                            <span>View Details</span>
+                            <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
+                        </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
                           <div>
                             <span className="font-medium">Date:</span> {new Date(booking.date).toLocaleDateString()}
@@ -151,24 +189,75 @@ export default function Account() {
                             </div>
                           )}
                         </div>
-                      </div>
+                        <div className="mt-3 pt-2 border-t border-gray-100">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-500">Booking ID: #{booking.id}</span>
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                              <div className="w-1.5 h-1.5 bg-green-400 rounded-full mr-1"></div>
+                              Confirmed
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
                     ))}
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <p className="text-gray-600 mb-4">No appointments found</p>
-                    <a
-                      href="/schedule"
-                      className="inline-block bg-rose-500 text-white px-4 py-2 rounded-lg hover:bg-rose-600 transition-colors duration-200"
-                    >
-                      Book an Appointment
-                    </a>
-                  </div>
+                    <div className="mb-6">
+                      <p className="text-gray-600 mb-2">No appointments found</p>
+                      <p className="text-sm text-gray-500">This could mean:</p>
+                      <ul className="text-xs text-gray-500 mt-1 space-y-1">
+                        <li>• You haven't booked any appointments yet</li>
+                        <li>• Your appointments might be cancelled or completed</li>
+                        <li>• There might be a connection issue with the server</li>
+                      </ul>
+                    </div>
+                    
+                    {bookingsError && (
+                      <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                        <p className="text-sm text-red-600 mb-2">Error loading appointments:</p>
+                        <p className="text-xs text-red-500">{bookingsError.message}</p>
+                        <p className="text-xs text-gray-500 mt-1">API URL: {process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'}</p>
+                      </div>
+                    )}
+                    
+                    {user && (
+                      <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p className="text-sm text-blue-600 mb-2">Debug Info:</p>
+                        <p className="text-xs text-blue-500">User Email: {user.email}</p>
+                        <p className="text-xs text-blue-500">User ID: {user.id}</p>
+                        <p className="text-xs text-blue-500">Bookings Found: {bookings && Array.isArray(bookings) ? bookings.length : 0}</p>
+                        <p className="text-xs text-gray-500 mt-1">The system is looking for bookings with this email and status: active</p>
+                      </div>
+                    )}
+                    
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <button
+                        onClick={handleRefreshData}
+                        className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200"
+                      >
+                        Refresh Data
+                      </button>
+                      <button
+                        onClick={handleCreateTestBooking}
+                        disabled={createBookingMutation.isLoading}
+                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 disabled:opacity-50"
+                      >
+                        {createBookingMutation.isLoading ? 'Creating...' : 'Create Test Booking'}
+                      </button>
+                      <a
+                        href="/schedule"
+                        className="inline-block bg-rose-500 text-white px-4 py-2 rounded-lg hover:bg-rose-600 transition-colors duration-200"
+                      >
+                        Book an Appointment
+                      </a>
+            </div>
+            </div>
                 )}
-              </div>
+            </div>
+            </div>
             </div>
           </div>
-        </div>
       </section>
     </div>
   );

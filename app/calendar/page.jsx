@@ -150,7 +150,7 @@ export default function Calendar() {
             Appointment Calendar
           </h1>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed px-2 sm:px-4 animate-fade-in-delay">
-            View and manage your appointments with our interactive calendar
+            View our availability and schedule your appointments with our interactive calendar
           </p>
         </div>
       </section>

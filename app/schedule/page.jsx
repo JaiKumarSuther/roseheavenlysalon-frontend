@@ -1,43 +1,245 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useCreateBooking } from "../../lib/hooks";
+import { useCreateBooking, useGetUser } from "../../lib/hooks";
+import useAuthStore from "../../lib/auth-store";
 
 export default function Schedule() {
+  const { isAuthenticated, initialize } = useAuthStore();
+  const { data: user } = useGetUser();
   const createBooking = useCreateBooking();
+  const [selectedServices, setSelectedServices] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedService, setSelectedService] = useState('');
   
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
-    defaultValues: {
-      service1: "Hair",
-      service2: "",
-    },
-  });
+    setValue,
+  } = useForm();
+
+  // Initialize auth store and pre-fill form if user is logged in
+  useEffect(() => {
+    initialize();
+    if (user) {
+      setValue("name", user.firstname && user.lastname ? `${user.firstname} ${user.lastname}` : '');
+      setValue("phone", user.phone || '');
+    }
+  }, [user, setValue, initialize]);
+
+  // Calculate total price when services change
+  useEffect(() => {
+    const total = selectedServices.reduce((sum, service) => sum + service.price, 0);
+    setTotalPrice(total);
+  }, [selectedServices]);
+
+  // Handle category selection
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
+    setSelectedService(''); // Reset service selection when category changes
+  };
+
+  // Handle service selection
+  const handleServiceChange = (serviceName) => {
+    setSelectedService(serviceName);
+  };
+
+  // Add selected service to the list
+  const addService = () => {
+    if (!selectedCategory || !selectedService) {
+      alert('Please select both category and service');
+      return;
+    }
+
+    const category = servicesData.find(cat => cat.id === selectedCategory);
+    const service = category?.services.find(s => s.name === selectedService);
+    
+    if (!service) return;
+
+    const serviceKey = `${selectedCategory}-${selectedService}`;
+    const existingIndex = selectedServices.findIndex(s => s.key === serviceKey);
+    
+    if (existingIndex > -1) {
+      alert('This service is already selected');
+      return;
+    }
+
+    setSelectedServices(prev => [...prev, {
+      key: serviceKey,
+      categoryId: selectedCategory,
+      name: selectedService,
+      price: service.price,
+      category: category.title
+    }]);
+
+    // Reset selections
+    setSelectedCategory('');
+    setSelectedService('');
+  };
+
+  // Remove service from the list
+  const removeService = (serviceKey) => {
+    setSelectedServices(prev => prev.filter(s => s.key !== serviceKey));
+  };
+
+  // Get services for selected category
+  const getServicesForCategory = () => {
+    if (!selectedCategory) return [];
+    const category = servicesData.find(cat => cat.id === selectedCategory);
+    return category?.services || [];
+  };
 
   const onSubmit = async (data) => {
+    // Validate that at least one service is selected
+    if (selectedServices.length === 0) {
+      alert("Please select at least one service.");
+      return;
+    }
+
     try {
-      await createBooking.mutateAsync({
+      // Use user's email if logged in, otherwise use guest email
+      const email = user?.email || "guest@example.com";
+      
+      // Create service strings for backward compatibility
+      const serviceNames = selectedServices.map(s => s.name);
+      const service1 = serviceNames[0] || "";
+      const service2 = serviceNames.slice(1).join(", ") || "";
+      
+      const bookingData = {
         ...data,
-        email: "guest@example.com", // Default email for guest bookings
-      });
-      reset(); // Reset form after successful booking
+        email: email,
+        service1: service1,
+        service2: service2,
+        selectedServices: selectedServices, // Include full service details
+        totalPrice: totalPrice,
+      };
+      
+      console.log('Sending booking data:', bookingData);
+      
+      await createBooking.mutateAsync(bookingData);
+      
+      // Reset form and services after successful booking
+      reset();
+      setSelectedServices([]);
+      setTotalPrice(0);
+      setSelectedCategory('');
+      setSelectedService('');
+      
+      // Pre-fill form again if user is logged in
+      if (user) {
+        setValue("name", user.firstname && user.lastname ? `${user.firstname} ${user.lastname}` : '');
+        setValue("phone", user.phone || '');
+      }
     } catch (error) {
       // Error is handled by the mutation
     }
   };
 
-  const services = [
-    "Hair",
-    "Nails", 
-    "Massage",
-    "Facial",
-    "Bleaching",
-    "IPL Hair Removal",
-    "Warts Removal"
+  // Generate time slots from 9:00 AM to 12:00 AM (midnight) in 30-minute intervals
+  const generateTimeSlots = () => {
+    const slots = [];
+    
+    // Morning to evening slots (9 AM to 11:30 PM)
+    for (let hour = 9; hour < 24; hour++) {
+      // Add full hour slot (e.g., 09:00, 10:00, 11:00, ..., 23:00)
+      slots.push(`${hour.toString().padStart(2, '0')}:00`);
+      
+      // Add half hour slot (e.g., 09:30, 10:30, 11:30, ..., 23:30)
+      slots.push(`${hour.toString().padStart(2, '0')}:30`);
+    }
+    
+    // Add midnight slot (00:00)
+    slots.push('00:00');
+    
+    return slots;
+  };
+
+  const servicesData = [
+    {
+      id: "hair",
+      title: "Hair Services",
+      services: [
+        { name: "Haircut", price: 50 },
+        { name: "Haircut (with Style)", price: 70 },
+        { name: "Hair Color (Ordinary)", price: 350 },
+        { name: "Hair Color (Organic)", price: 500 },
+        { name: "Special Color (with Amonia)", price: 600 },
+        { name: "Hair Color (with Brazilian Treatment)", price: 1000 },
+        { name: "Brazilian Treatment (Organic)", price: 700 },
+        { name: "Special Brazilian Treatment", price: 1200 },
+        { name: "Rebond (Organic)", price: 700 },
+        { name: "Rebond (with Semi Di Lina)", price: 1000 },
+        { name: "Rebond (with Hair Color and Brazilian Treatment)", price: 1800 },
+      ],
+    },
+    {
+      id: "nails",
+      title: "Nail Services",
+      services: [
+        { name: "Manicure", price: 60 },
+        { name: "Pedicure", price: 70 },
+        { name: "Nail Art", price: 50 },
+        { name: "Parrafin Hand", price: 150 },
+        { name: "Parrafin Foot", price: 200 },
+        { name: "Gel Polish", price: 300 },
+        { name: "Manicure & Pedicure (with Footspa)", price: 300 },
+        { name: "Manicure & Handspa (with Whitening Mask)", price: 300 },
+        { name: "Manicure & Pedicure (w/ Footspa Detox & Whitening)", price: 500 },
+        { name: "Manicure & Pedicure (with Signature Footspa)", price: 500 },
+        { name: "Nail Extension Polygel", price: 999 },
+      ],
+    },
+    {
+      id: "massage",
+      title: "Massage & Bleaching",
+      services: [
+        { name: "Basic Massage (1 hour)", price: 300 },
+        { name: "Swedish Whole Body (1 hour)", price: 350 },
+        { name: "Thai Whole Body (1 hour)", price: 350 },
+        { name: "Stone Whole Body (1 hour)", price: 350 },
+        { name: "Signature Whole Body (1.5 hour)", price: 450 },
+        { name: "Whole Body Scrub With Bleaching", price: 500 },
+      ],
+    },
+    {
+      id: "facial",
+      title: "Facial & Eyelash",
+      services: [
+        { name: "Regular Facial with Vitamin C", price: 300 },
+        { name: "Facial with Skin Scrubber", price: 330 },
+        { name: "Facial with Diamond Peel", price: 350 },
+        { name: "Facial with Galvanic Spa", price: 400 },
+        { name: "Facial with Lifting", price: 400 },
+        { name: "Eyelash Perm", price: 300 },
+        { name: "Russian Volume (Human Hair) 3D Applying", price: 500 },
+      ],
+    },
+    {
+      id: "ipl",
+      title: "IPL Hair Removal & Waxing",
+      services: [
+        { name: "Under Arms", price: 300 },
+        { name: "Under Arms Package (10 sessions)", price: 2200 },
+        { name: "Leg (1 session)", price: 1200 },
+        { name: "Underarm Waxing", price: 200 },
+        { name: "Brazilian Waxing", price: 500 },
+      ],
+    },
+    {
+      id: "warts",
+      title: "Warts Removal",
+      services: [
+        { name: "Face", price: 500 },
+        { name: "Neck", price: 700 },
+        { name: "Chest", price: 750 },
+        { name: "Back", price: 1000 },
+        { name: "Whole Body", price: 2500 },
+        { name: "Face & Neck with Healing Cream + Honey Cleansing Milk Package", price: 1600 },
+      ],
+    },
   ];
 
   return (
@@ -81,19 +283,33 @@ export default function Schedule() {
                 Book Now!
               </h2>
               <p className="text-gray-600">Fill out the form below to schedule your visit</p>
+              {user && (
+                <div className="mt-3 inline-block bg-green-50 border border-green-200 rounded-lg px-4 py-2">
+                  <p className="text-sm text-green-600">
+                    ✓ Logged in as {user.email} - Your booking will be saved to your account
+                  </p>
+                </div>
+              )}
+              {!user && (
+                <div className="mt-3 inline-block bg-blue-50 border border-blue-200 rounded-lg px-4 py-2">
+                  <p className="text-sm text-blue-600">
+                    💡 <a href="/login" className="text-blue-700 underline">Login</a> to save bookings to your account
+                  </p>
+                </div>
+              )}
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Personal Information */}
-                                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        Name *
-                      </label>
-                      <input 
-                        type="text" 
-                        placeholder="Enter your name" 
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Name *
+                    </label>
+                    <input 
+                      type="text" 
+                      placeholder="Enter your name" 
                         {...register("name", { required: "Name is required" })}
                         className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
                           errors.name ? 'border-red-500' : 'border-gray-300'
@@ -102,13 +318,13 @@ export default function Schedule() {
                       {errors.name && (
                         <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
                       )}
-                    </div>
+                  </div>
 
-                    <div className="space-y-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        Phone *
-                      </label>
-                      <input 
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Phone *
+                    </label>
+                    <input 
                         type="tel" 
                         placeholder="Enter your phone number" 
                         {...register("phone", { 
@@ -125,8 +341,8 @@ export default function Schedule() {
                       {errors.phone && (
                         <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
                       )}
-                    </div>
                   </div>
+                </div>
 
                 {/* Appointment Details */}
                 <div className="space-y-4">
@@ -136,7 +352,27 @@ export default function Schedule() {
                     </label>
                     <input 
                       type="date" 
-                      {...register("date", { required: "Date is required" })}
+                      {...register("date", { 
+                        required: "Date is required",
+                        validate: (value) => {
+                          const selectedDate = new Date(value);
+                          const today = new Date();
+                          today.setHours(0, 0, 0, 0);
+                          
+                          if (selectedDate < today) {
+                            return "Cannot book appointments in the past";
+                          }
+                          
+                          // Optional: Prevent weekend bookings (Saturday = 6, Sunday = 0)
+                          const dayOfWeek = selectedDate.getDay();
+                          if (dayOfWeek === 0 || dayOfWeek === 6) {
+                            return "We are closed on weekends";
+                          }
+                          
+                          return true;
+                        }
+                      })}
+                      min={new Date().toISOString().split('T')[0]} // Prevent past dates
                       className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
                         errors.date ? 'border-red-500' : 'border-gray-300'
                       }`}
@@ -150,60 +386,155 @@ export default function Schedule() {
                     <label className="block text-sm font-medium text-gray-700">
                       Time *
                     </label>
-                    <input 
-                      type="time" 
+                    <select 
                       {...register("time", { required: "Time is required" })}
                       className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
                         errors.time ? 'border-red-500' : 'border-gray-300'
                       }`}
-                    />
+                    >
+                      <option value="">Select a time</option>
+                      {generateTimeSlots().map((time) => (
+                        <option key={time} value={time}>{time}</option>
+                      ))}
+                    </select>
                     {errors.time && (
                       <p className="text-red-500 text-sm mt-1">{errors.time.message}</p>
                     )}
+                                          <p className="text-xs text-gray-500 mt-1">
+                        Business hours: 9:00 AM - 12:00 AM
+                      </p>
                   </div>
                 </div>
               </div>
 
-              {/* Services */}
-              <div className="space-y-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Primary Service *
-                </label>
-                <select 
-                  {...register("service1", { required: "Primary service is required" })}
-                  className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
-                    errors.service1 ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                >
-                  {services.map((service) => (
-                    <option key={service} value={service}>{service}</option>
-                  ))}
-                </select>
-                {errors.service1 && (
-                  <p className="text-red-500 text-sm mt-1">{errors.service1.message}</p>
+                            {/* Services Selection */}
+              <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <label className="block text-lg font-medium text-gray-700">
+                    Select Services *
+                  </label>
+                  {totalPrice > 0 && (
+                    <div className="bg-rose-50 border border-rose-200 rounded-lg px-4 py-2">
+                      <span className="text-rose-600 font-semibold">
+                        Total: ₱{totalPrice.toLocaleString()}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Selected Services Display */}
+                {selectedServices.length > 0 && (
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <h4 className="font-medium text-gray-700 mb-3">Selected Services:</h4>
+                    <div className="space-y-2">
+                      {selectedServices.map((service) => (
+                        <div key={service.key} className="flex justify-between items-center bg-white p-3 rounded-lg border border-gray-200">
+                          <div>
+                            <span className="font-medium text-gray-800">{service.category}: {service.name}</span>
+                          </div>
+                          <div className="flex items-center space-x-3">
+                            <span className="font-semibold text-rose-600">₱{service.price}</span>
+                            <button
+                              type="button"
+                              onClick={() => removeService(service.key)}
+                              className="text-red-500 hover:text-red-700 transition-colors"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
-              </div>
 
-              <div className="space-y-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Additional Service (Optional)
-                </label>
-                <select 
-                  {...register("service2")}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
-                >
-                  <option value="">Select additional service</option>
-                  {services.map((service) => (
-                    <option key={service} value={service}>{service}</option>
-                  ))}
-                </select>
+                {/* Service Selection Dropdowns */}
+                <div className="bg-white border border-gray-200 rounded-lg p-6">
+                  <h4 className="font-medium text-gray-700 mb-4">Add New Service:</h4>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                    {/* Category Dropdown */}
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Select Category
+                      </label>
+                      <select
+                        value={selectedCategory}
+                        onChange={(e) => handleCategoryChange(e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300"
+                      >
+                        <option value="">Choose a category</option>
+                        {servicesData.map((category) => (
+                          <option key={category.id} value={category.id}>
+                            {category.title}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Service Dropdown */}
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Select Service
+                      </label>
+                      <select
+                        value={selectedService}
+                        onChange={(e) => handleServiceChange(e.target.value)}
+                        disabled={!selectedCategory}
+                        className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 ${
+                          !selectedCategory ? 'border-gray-200 bg-gray-50' : 'border-gray-300'
+                        }`}
+                      >
+                        <option value="">
+                          {selectedCategory ? 'Choose a service' : 'Select category first'}
+                        </option>
+                        {getServicesForCategory().map((service) => (
+                          <option key={service.name} value={service.name}>
+                            {service.name} - ₱{service.price}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Add Button */}
+                    <div className="space-y-2">
+                      <button
+                        type="button"
+                        onClick={addService}
+                        disabled={!selectedCategory || !selectedService}
+                        className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                      >
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Add Service
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Service Preview */}
+                  {selectedCategory && selectedService && (
+                    <div className="mt-4 p-3 bg-rose-50 border border-rose-200 rounded-lg">
+                      <p className="text-sm text-rose-700">
+                        <span className="font-medium">Preview:</span> {selectedService} - ₱
+                        {getServicesForCategory().find(s => s.name === selectedService)?.price}
+                      </p>
+                    </div>
+                  )}
+                </div>
+                
+                {selectedServices.length === 0 && (
+                  <p className="text-red-500 text-sm">Please select at least one service.</p>
+                )}
               </div>
 
               {/* Submit Button */}
               <div className="text-center pt-4">
                 <button 
                   type="submit" 
-                  disabled={createBooking.isPending}
+                  disabled={createBooking.isPending || selectedServices.length === 0}
                   className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {createBooking.isPending ? (
@@ -212,9 +543,22 @@ export default function Schedule() {
                       Booking...
                     </div>
                   ) : (
-                    'Book Appointment'
+                    <div className="flex items-center justify-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Book Appointment
+                      {totalPrice > 0 && (
+                        <span className="ml-2 bg-white/20 px-2 py-1 rounded-lg">
+                          ₱{totalPrice.toLocaleString()}
+                        </span>
+                      )}
+                    </div>
                   )}
                 </button>
+                {selectedServices.length === 0 && (
+                  <p className="text-gray-500 text-sm mt-2">Please select at least one service to continue</p>
+                )}
               </div>
             </form>
           </div>
