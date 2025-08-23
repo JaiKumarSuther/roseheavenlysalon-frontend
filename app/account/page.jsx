@@ -140,8 +140,8 @@ export default function Account() {
             </div>
 
             {/* Bookings Section */}
-            <div className="lg:col-span-2">
-              <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-white/20 shadow-soft">
+            <div className="lg:col-span-2 min-h-[500px]">
+              <div className="bg-white/95 h-full backdrop-blur-sm rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-white/20 shadow-soft flex flex-col justify-between">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-bold text-gray-800">My Appointments</h2>
                   <div className="text-xs text-gray-500">
@@ -203,15 +203,7 @@ export default function Account() {
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <div className="mb-6">
-                      <p className="text-gray-600 mb-2">No appointments found</p>
-                      <p className="text-sm text-gray-500">This could mean:</p>
-                      <ul className="text-xs text-gray-500 mt-1 space-y-1">
-                        <li>• You haven't booked any appointments yet</li>
-                        <li>• Your appointments might be cancelled or completed</li>
-                        <li>• There might be a connection issue with the server</li>
-                      </ul>
-                    </div>
+                    
                     
                     {bookingsError && (
                       <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
@@ -221,30 +213,10 @@ export default function Account() {
                       </div>
                     )}
                     
-                    {user && (
-                      <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                        <p className="text-sm text-blue-600 mb-2">Debug Info:</p>
-                        <p className="text-xs text-blue-500">User Email: {user.email}</p>
-                        <p className="text-xs text-blue-500">User ID: {user.id}</p>
-                        <p className="text-xs text-blue-500">Bookings Found: {bookings && Array.isArray(bookings) ? bookings.length : 0}</p>
-                        <p className="text-xs text-gray-500 mt-1">The system is looking for bookings with this email and status: active</p>
-                      </div>
-                    )}
+                   
                     
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                      <button
-                        onClick={handleRefreshData}
-                        className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200"
-                      >
-                        Refresh Data
-                      </button>
-                      <button
-                        onClick={handleCreateTestBooking}
-                        disabled={createBookingMutation.isLoading}
-                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 disabled:opacity-50"
-                      >
-                        {createBookingMutation.isLoading ? 'Creating...' : 'Create Test Booking'}
-                      </button>
+             
                       <a
                         href="/schedule"
                         className="inline-block bg-rose-500 text-white px-4 py-2 rounded-lg hover:bg-rose-600 transition-colors duration-200"
