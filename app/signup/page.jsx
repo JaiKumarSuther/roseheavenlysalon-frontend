@@ -41,14 +41,14 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 via-pink-50/50 to-purple-50/50 opacity-50"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 via-gray-100/50 to-gray-200/50 opacity-50"></div>
       
       {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-bounce-slow"></div>
-      <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-pulse-slow"></div>
-      <div className="absolute bottom-20 left-20 w-12 h-12 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-20 animate-bounce-slow" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full opacity-20 animate-bounce-slow"></div>
+      <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full opacity-20 animate-pulse-slow"></div>
+      <div className="absolute bottom-20 left-20 w-12 h-12 bg-gradient-to-r from-gray-300 to-gray-400 rounded-full opacity-20 animate-bounce-slow" style={{ animationDelay: '1s' }}></div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-8">
         <div className="w-full max-w-md">
@@ -63,10 +63,10 @@ export default function Signup() {
                   height={80}
                   className="transition-transform duration-300 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full opacity-20 animate-pulse"></div>
               </div>
             </div>
-            <h1 className="font-serif text-3xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent mb-2">
+            <h1 className="font-serif text-3xl font-bold bg-gradient-to-r from-gray-600 to-gray-700 bg-clip-text text-transparent mb-2">
               Rose Heavenly
             </h1>
             <p className="text-gray-600">Join our beauty community</p>
@@ -252,15 +252,15 @@ export default function Signup() {
                 <input 
                   type="checkbox" 
                   required
-                  className="w-4 h-4 text-rose-600 bg-gray-100 border-gray-300 rounded focus:ring-rose-500 focus:ring-2 mt-1"
+                  className="w-4 h-4 text-gray-500 bg-gray-100 border-gray-300 rounded focus:ring-gray-500 focus:ring-2 mt-1"
                 />
                 <label className="ml-2 text-sm text-gray-600">
                   I agree to the{" "}
-                  <Link href="/terms" className="text-rose-600 hover:text-rose-700 font-medium">
+                  <Link href="/terms" className="text-gray-500 hover:text-gray-600 font-medium">
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link href="/privacy" className="text-rose-600 hover:text-rose-700 font-medium">
+                  <Link href="/privacy" className="text-gray-500 hover:text-gray-600 font-medium">
                     Privacy Policy
                   </Link>
                 </label>
@@ -284,7 +284,7 @@ export default function Signup() {
               <div className="text-center">
                 <p className="text-gray-600 text-sm">
                   Already have an account?{" "}
-                  <Link href="/login" className="text-rose-600 hover:text-rose-700 font-medium transition-colors">
+                  <Link href="/login" className="text-gray-500 hover:text-gray-600 font-medium transition-colors">
                     Sign in
                   </Link>
                 </p>

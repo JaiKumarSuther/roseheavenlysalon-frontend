@@ -97,10 +97,10 @@ export default function ServiceDetail({ params }) {
 
   if (!service) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 flex items-center justify-center">
         <div className="text-center animate-fade-in">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">Service Not Found</h1>
-          <Link href="/package" className="bg-rose-500 text-white px-6 py-3 rounded-xl hover:bg-rose-600 transition-colors">
+                      <Link href="/package" className="bg-gray-500 text-white px-6 py-3 rounded-xl hover:bg-gray-600 transition-colors">
             Back to Services
           </Link>
         </div>
@@ -109,7 +109,7 @@ export default function ServiceDetail({ params }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
       {/* Hero Section */}
       <section className="relative py-12 md:py-16 px-4">
         <div className="container mx-auto max-w-6xl animate-fade-in">
@@ -118,7 +118,7 @@ export default function ServiceDetail({ params }) {
             <div className="mb-6">
               <Link 
                 href="/package" 
-                className="inline-flex items-center text-rose-600 hover:text-rose-700 font-semibold transition-colors"
+                className="inline-flex items-center text-gray-600 hover:text-gray-700 font-semibold transition-colors"
               >
                 <svg 
                   className="w-5 h-5 mr-2 hover:-translate-x-1 transition-transform duration-200" 
@@ -149,7 +149,7 @@ export default function ServiceDetail({ params }) {
               </div>
               
               <div className="flex flex-col justify-center">
-                <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-6 border border-rose-200 hover:scale-[1.02] transition-transform duration-300">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 hover:scale-[1.02] transition-transform duration-300">
                   <h2 className="text-2xl font-bold text-gray-800 mb-4">Service Overview</h2>
                   <div className="space-y-3">
                     {[
@@ -159,7 +159,7 @@ export default function ServiceDetail({ params }) {
                       "Comfortable and clean environment"
                     ].map((item, index) => (
                       <div key={index} className="flex items-center">
-                        <div className="w-3 h-3 bg-rose-400 rounded-full mr-3 hover:scale-125 transition-transform duration-200"></div>
+                        <div className="w-3 h-3 bg-gray-400 rounded-full mr-3 hover:scale-125 transition-transform duration-200"></div>
                         <span className="text-gray-700">{item}</span>
                       </div>
                     ))}
@@ -177,13 +177,13 @@ export default function ServiceDetail({ params }) {
                   return (
                     <div 
                       key={index} 
-                      className="flex justify-between items-center p-4 bg-gray-50 rounded-xl hover:bg-rose-50 transition-colors duration-200 border border-gray-100 hover:translate-x-1 hover:scale-[1.02] transition-all duration-200"
+                      className="flex justify-between items-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200 border border-gray-100 hover:translate-x-1 hover:scale-[1.02] transition-all duration-200"
                     >
                       <div className="flex items-center space-x-3">
-                        <div className="w-2 h-2 bg-rose-400 rounded-full hover:scale-150 transition-transform duration-200"></div>
+                                                  <div className="w-2 h-2 bg-gray-400 rounded-full hover:scale-150 transition-transform duration-200"></div>
                         <span className="text-gray-700 font-medium">{serviceName}</span>
                       </div>
-                      <span className="text-lg font-bold text-rose-600 hover:scale-110 transition-transform duration-200">
+                                                <span className="text-lg font-bold text-gray-600 hover:scale-110 transition-transform duration-200">
                         {price}
                       </span>
                     </div>
@@ -193,14 +193,14 @@ export default function ServiceDetail({ params }) {
             </div>
 
             {/* Call to Action */}
-            <div className="mt-8 text-center bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-6 border border-rose-200">
+            <div className="mt-8 text-center bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200">
               <h3 className="text-xl font-bold text-gray-800 mb-4">Ready to Book Your {service.title}?</h3>
               <p className="text-gray-600 mb-6">Contact us to schedule your appointment or learn more about our services.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <div className="hover:scale-105 transition-transform duration-200">
                   <Link 
                     href="/schedule" 
-                    className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center"
+                    className="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-gray-600 hover:to-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center"
                   >
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -211,7 +211,7 @@ export default function ServiceDetail({ params }) {
                 <div className="hover:scale-105 transition-transform duration-200">
                   <Link 
                     href="tel:+639683123303" 
-                    className="bg-white text-gray-800 border-2 border-rose-200 px-6 py-3 rounded-xl font-semibold hover:bg-rose-50 hover:border-rose-300 transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center justify-center"
+                    className="bg-white text-gray-800 border-2 border-gray-200 px-6 py-3 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-300 transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center justify-center"
                   >
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />

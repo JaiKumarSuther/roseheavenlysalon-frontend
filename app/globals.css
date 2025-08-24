@@ -91,11 +91,11 @@
 
   /* Fix gradient text visibility */
   .bg-gradient-primary {
-    background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+    background: linear-gradient(135deg, #AEC6CF 0%, #8ba3b0 100%);
   }
 
   .bg-gradient-hero {
-    background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+    background: linear-gradient(135deg, #f8fafb 0%, #f1f5f9 100%);
   }
 
   .bg-gradient-card {
@@ -147,11 +147,11 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-rose hover:shadow-large;
+    @apply bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-rose hover:shadow-large;
   }
   
   .btn-secondary {
-    @apply bg-white text-rose-600 border-2 border-rose-200 hover:border-rose-300 font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-medium;
+    @apply bg-white text-gray-600 border-2 border-gray-200 hover:border-gray-300 font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-medium;
   }
   
   .card {
@@ -159,7 +159,7 @@
   }
   
   .input-field {
-    @apply w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm;
+    @apply w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm;
   }
   
   .section-padding {
@@ -429,21 +429,17 @@
 
   /* Remove background colors and gradients */
   .bg-gradient-to-br,
-  .bg-rose-50,
-  .bg-pink-50,
-  .bg-purple-50,
-  .bg-green-100,
-  .bg-rose-100,
-  .bg-rose-400,
-  .bg-pink-400,
-  .bg-purple-400 {
+  .bg-gray-50,
+  .bg-gray-100,
+  .bg-gray-400,
+  .bg-green-100 {
     background: white !important;
   }
 
   /* Remove borders and shadows */
   .border-white\/20,
   .border-green-200,
-  .border-rose-200,
+  .border-gray-200,
   .shadow-soft,
   .shadow-lg,
   .shadow-xl {

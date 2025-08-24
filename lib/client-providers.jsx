@@ -36,20 +36,20 @@ export function ClientProviders({ children }) {
             background: '#363636',
             color: '#fff',
           },
-          success: {
-            duration: 3000,
-            iconTheme: {
-              primary: '#10b981',
-              secondary: '#fff',
-            },
-          },
-          error: {
-            duration: 5000,
-            iconTheme: {
-              primary: '#ef4444',
-              secondary: '#fff',
-            },
-          },
+                            success: {
+                    duration: 3000,
+                    iconTheme: {
+                      primary: '#AEC6CF',
+                      secondary: '#fff',
+                    },
+                  },
+                  error: {
+                    duration: 5000,
+                    iconTheme: {
+                      primary: '#ef4444',
+                      secondary: '#fff',
+                    },
+                  },
         }}
       />
     </QueryClientProvider>

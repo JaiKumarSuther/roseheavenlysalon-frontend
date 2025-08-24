@@ -30,14 +30,14 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 via-pink-50/50 to-purple-50/50 opacity-50"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 via-gray-100/50 to-gray-200/50 opacity-50"></div>
       
       {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-bounce"></div>
-      <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-pulse"></div>
-      <div className="absolute bottom-20 left-20 w-12 h-12 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-20 animate-bounce" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full opacity-20 animate-bounce"></div>
+      <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-20 left-20 w-12 h-12 bg-gradient-to-r from-gray-300 to-gray-400 rounded-full opacity-20 animate-bounce" style={{ animationDelay: '1s' }}></div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
         <div className="w-full max-w-md animate-fade-in">
@@ -52,10 +52,10 @@ export default function Login() {
                   height={80}
                   className="transition-transform duration-300 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full opacity-20 animate-ping"></div>
               </div>
             </div>
-            <h1 className="font-serif text-3xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent mb-2">
+            <h1 className="font-serif text-3xl font-bold bg-gradient-to-r from-gray-600 to-gray-700 bg-clip-text text-transparent mb-2">
               Rose Heavenly
             </h1>
             <p className="text-gray-600">Welcome back to your beauty journey</p>
@@ -83,7 +83,7 @@ export default function Login() {
                         message: "Invalid email address"
                       }
                     })}
-                    className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 pr-10 ${
+                    className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all duration-300 pr-10 ${
                       errors.email ? 'border-red-500' : 'border-gray-300'
                     }`}
                     placeholder="Enter your email"
@@ -113,7 +113,7 @@ export default function Login() {
                         message: "Password must be at least 6 characters"
                       }
                     })}
-                    className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all duration-300 pr-10 ${
+                    className={`w-full px-4 py-3 border rounded-lg bg-white text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all duration-300 pr-10 ${
                       errors.password ? 'border-red-500' : 'border-gray-300'
                     }`}
                     placeholder="Enter your password"
@@ -142,18 +142,18 @@ export default function Login() {
 
               <div className="flex items-center justify-between">
                 <label className="flex items-center">
-                  <input type="checkbox" className="w-4 h-4 text-rose-600 border-gray-300 rounded focus:ring-rose-500" />
-                  <span className="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
-                <Link href="#" className="text-sm text-rose-600 hover:text-rose-700 transition-colors">
-                  Forgot password?
-                </Link>
+                                  <input type="checkbox" className="w-4 h-4 text-gray-500 border-gray-300 rounded focus:ring-gray-500" />
+                <span className="ml-2 text-sm text-gray-600">Remember me</span>
+              </label>
+              <Link href="#" className="text-sm text-gray-500 hover:text-gray-600 transition-colors">
+                Forgot password?
+              </Link>
               </div>
 
               <button
                 type="submit"
                 disabled={login.isPending}
-                className="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-gray-500 to-gray-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-gray-600 hover:to-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {login.isPending ? (
                   <div className="flex items-center justify-center">
@@ -169,7 +169,7 @@ export default function Login() {
             <div className="mt-6 text-center">
               <p className="text-gray-600">
                 Don't have an account?{" "}
-                <Link href="/register" className="text-rose-600 hover:text-rose-700 font-medium transition-colors">
+                <Link href="/signup" className="text-gray-500 hover:text-gray-600 font-medium transition-colors">
                   Sign up
                 </Link>
               </p>
@@ -210,7 +210,7 @@ export default function Login() {
           <div className="text-center mt-8 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <Link
               href="/"
-              className="inline-flex items-center text-gray-600 hover:text-rose-600 transition-colors duration-200"
+              className="inline-flex items-center text-gray-600 hover:text-gray-500 transition-colors duration-200"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

@@ -40,9 +40,9 @@ export default function BookingDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-500 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading booking details...</p>
         </div>
       </div>
@@ -51,13 +51,13 @@ export default function BookingDetail() {
 
   if (!booking) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">Booking Not Found</h1>
           <p className="text-gray-600 mb-6">The booking you're looking for doesn't exist or you don't have permission to view it.</p>
           <Link 
             href="/account" 
-            className="bg-rose-500 text-white px-6 py-3 rounded-lg hover:bg-rose-600 transition-colors duration-200"
+            className="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors duration-200"
           >
             Back to My Account
           </Link>
@@ -98,20 +98,20 @@ export default function BookingDetail() {
   const bookingTime = new Date(booking.time);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 print:min-h-0">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 print:min-h-0">
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 lg:py-32 px-4 overflow-hidden print:hidden">
         <div className="relative z-10 container mx-auto text-center">
           <div className="flex justify-center mb-4 md:mb-6">
             <div className="relative">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full flex items-center justify-center shadow-lg">
                 <svg className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
             </div>
           </div>
-          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-6 text-rose-600">
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-6 text-gray-600">
             Booking Details
           </h1>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed px-2 sm:px-4">
@@ -129,7 +129,7 @@ export default function BookingDetail() {
              <div className="mb-6 no-print">
                <Link 
                  href="/account" 
-                 className="inline-flex items-center text-rose-600 hover:text-rose-700 transition-colors duration-200"
+                 className="inline-flex items-center text-gray-600 hover:text-gray-700 transition-colors duration-200"
                >
                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -233,14 +233,14 @@ export default function BookingDetail() {
                              <span className="font-medium text-gray-800">{service.category}: </span>
                              <span className="text-gray-600">{service.name}</span>
                            </div>
-                           <span className="font-semibold text-rose-600">₱{service.price.toLocaleString()}</span>
+                           <span className="font-semibold text-gray-600">₱{service.price.toLocaleString()}</span>
                          </div>
                        ))}
                      </div>
                      <div className="mt-4 pt-3 border-t border-gray-200 print-total">
                        <div className="flex justify-between items-center">
                          <span className="font-bold text-gray-800">Total Amount:</span>
-                         <span className="font-bold text-xl text-rose-600">₱{serviceDetails.totalPrice.toLocaleString()}</span>
+                         <span className="font-bold text-xl text-gray-600">₱{serviceDetails.totalPrice.toLocaleString()}</span>
                        </div>
                      </div>
                   </div>
@@ -301,7 +301,7 @@ export default function BookingDetail() {
              <div className="flex flex-col sm:flex-row gap-4 justify-center no-print">
                <Link 
                  href="/schedule" 
-                 className="bg-rose-500 text-white px-6 py-3 rounded-lg hover:bg-rose-600 transition-colors duration-200 text-center"
+                 className="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors duration-200 text-center"
                >
                  Book Another Appointment
                </Link>

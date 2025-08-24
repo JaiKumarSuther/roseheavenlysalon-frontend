@@ -15,14 +15,14 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 via-pink-50/50 to-purple-50/50 opacity-50"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 via-gray-100/50 to-gray-200/50 opacity-50"></div>
       
       {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-bounce-slow"></div>
-      <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-pulse-slow"></div>
-      <div className="absolute bottom-20 left-20 w-12 h-12 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-20 animate-bounce-slow" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-gray-400 to-gray-400 rounded-full opacity-20 animate-bounce-slow"></div>
+              <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full opacity-20 animate-pulse-slow"></div>
+      <div className="absolute bottom-20 left-20 w-12 h-12 bg-gradient-to-r from-gray-300 to-gray-300 rounded-full opacity-20 animate-bounce-slow" style={{ animationDelay: '1s' }}></div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
         <div className="w-full max-w-md">
@@ -37,10 +37,10 @@ export default function ForgotPassword() {
                   height={80}
                   className="transition-transform duration-300 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-400 rounded-full opacity-20 animate-pulse"></div>
               </div>
             </div>
-            <h1 className="font-serif text-3xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent mb-2">
+            <h1 className="font-serif text-3xl font-bold bg-gradient-to-r from-gray-600 to-gray-600 bg-clip-text text-transparent mb-2">
               Rose Heavenly
             </h1>
             <p className="text-gray-600">Reset your password</p>
@@ -51,8 +51,8 @@ export default function ForgotPassword() {
             {!isSubmitted ? (
               <>
                 <div className="text-center mb-8">
-                  <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                   </div>
@@ -92,7 +92,7 @@ export default function ForgotPassword() {
                   <div className="text-center">
                     <p className="text-gray-600 text-sm">
                       Remember your password?{" "}
-                      <Link href="/login" className="text-rose-600 hover:text-rose-700 font-medium transition-colors">
+                      <Link href="/login" className="text-gray-600 hover:text-gray-700 font-medium transition-colors">
                         Back to login
                       </Link>
                     </p>
@@ -111,8 +111,8 @@ export default function ForgotPassword() {
                   We've sent password reset instructions to{" "}
                   <span className="font-medium text-gray-800">{email}</span>
                 </p>
-                <div className="bg-rose-50 border border-rose-200 rounded-xl p-4 mb-6">
-                  <p className="text-sm text-rose-700">
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-6">
+                  <p className="text-sm text-gray-700">
                     <strong>Didn't receive the email?</strong> Check your spam folder or try again with a different email address.
                   </p>
                 </div>
@@ -125,7 +125,7 @@ export default function ForgotPassword() {
                   </button>
                   <Link 
                     href="/login" 
-                    className="block text-rose-600 hover:text-rose-700 font-medium transition-colors"
+                    className="block text-gray-600 hover:text-gray-700 font-medium transition-colors"
                   >
                     Back to login
                   </Link>

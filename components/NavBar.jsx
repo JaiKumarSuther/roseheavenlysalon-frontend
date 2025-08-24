@@ -70,9 +70,9 @@ export default function NavBar() {
                   height={48}
                   className="transition-transform duration-300 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
               </div>
-              <span className="font-serif text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent group-hover:from-rose-700 group-hover:to-pink-700 transition-all duration-300">
+              <span className="font-serif text-2xl font-bold bg-gradient-to-r from-gray-600 to-gray-700 bg-clip-text text-transparent group-hover:from-gray-700 group-hover:to-gray-800 transition-all duration-300">
                 Rose Heavenly
               </span>
             </Link>
@@ -84,9 +84,9 @@ export default function NavBar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative font-medium transition-all duration-300 hover:text-rose-600 ${
+                className={`relative font-medium transition-all duration-300 hover:text-gray-600 ${
                   pathname === link.href 
-                    ? 'text-rose-600' 
+                    ? 'text-gray-600' 
                     : 'text-gray-700'
                 }`}
               >
@@ -94,7 +94,7 @@ export default function NavBar() {
                   {link.label}
                 </span>
                 {pathname === link.href && (
-                  <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-rose-500 to-pink-500"></div>
+                  <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-gray-500 to-gray-600"></div>
                 )}
               </Link>
             ))}
@@ -105,7 +105,7 @@ export default function NavBar() {
                 <button
                   key={link.href}
                   onClick={link.onClick}
-                  className="relative font-medium transition-all duration-300 hover:text-rose-600 text-gray-700"
+                  className="relative font-medium transition-all duration-300 hover:text-gray-600 text-gray-700"
                 >
                   <span className="hover:translate-y-[-2px] transition-transform duration-200">
                     {link.label}
@@ -115,9 +115,9 @@ export default function NavBar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative font-medium transition-all duration-300 hover:text-rose-600 ${
+                  className={`relative font-medium transition-all duration-300 hover:text-gray-600 ${
                     pathname === link.href 
-                      ? 'text-rose-600' 
+                      ? 'text-gray-600' 
                       : 'text-gray-700'
                   }`}
                 >
@@ -125,7 +125,7 @@ export default function NavBar() {
                     {link.label}
                   </span>
                   {pathname === link.href && (
-                    <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-rose-500 to-pink-500"></div>
+                    <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-gray-500 to-gray-600"></div>
                   )}
                 </Link>
               )
@@ -154,9 +154,9 @@ export default function NavBar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`block px-4 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-rose-50 hover:text-rose-600 ${
+                className={`block px-4 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-gray-50 hover:text-gray-600 ${
                   pathname === link.href 
-                    ? 'bg-rose-50 text-rose-600' 
+                    ? 'bg-gray-50 text-gray-600' 
                     : 'text-gray-700'
                 }`}
               >
@@ -170,7 +170,7 @@ export default function NavBar() {
                 <button
                   key={link.href}
                   onClick={link.onClick}
-                  className="block w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-rose-50 hover:text-rose-600 text-gray-700"
+                  className="block w-full text-left px-4 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-gray-50 hover:text-gray-600 text-gray-700"
                 >
                   {link.label}
                 </button>
@@ -178,9 +178,9 @@ export default function NavBar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`block px-4 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-rose-50 hover:text-rose-600 ${
+                  className={`block px-4 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-gray-50 hover:text-gray-600 ${
                     pathname === link.href 
-                      ? 'bg-rose-50 text-rose-600' 
+                      ? 'bg-gray-50 text-gray-600' 
                       : 'text-gray-700'
                   }`}
                 >

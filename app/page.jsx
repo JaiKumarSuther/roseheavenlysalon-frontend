@@ -128,12 +128,12 @@ export default function Home() {
       {/* Hero Section with Slider */}
       <section className="relative h-screen overflow-hidden">
         {/* Background Pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-50/10 via-pink-50/10 to-purple-50/10 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50/10 via-gray-100/10 to-gray-200/10 z-10"></div>
         
         {/* Floating Elements */}
-        <div className="absolute top-10 left-4 md:top-20 md:left-10 w-12 h-12 md:w-20 md:h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-40 animate-bounce z-20 shadow-lg"></div>
-        <div className="absolute top-20 right-4 md:top-40 md:right-20 w-10 h-10 md:w-16 md:h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-40 animate-pulse z-20 shadow-lg"></div>
-        <div className="absolute bottom-10 left-4 md:bottom-20 md:left-20 w-8 h-8 md:w-12 md:h-12 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-40 animate-bounce z-20 shadow-lg" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-10 left-4 md:top-20 md:left-10 w-12 h-12 md:w-20 md:h-20 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full opacity-40 animate-bounce z-20 shadow-lg"></div>
+        <div className="absolute top-20 right-4 md:top-40 md:right-20 w-10 h-10 md:w-16 md:h-16 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full opacity-40 animate-pulse z-20 shadow-lg"></div>
+        <div className="absolute bottom-10 left-4 md:bottom-20 md:left-20 w-8 h-8 md:w-12 md:h-12 bg-gradient-to-r from-gray-300 to-gray-400 rounded-full opacity-40 animate-bounce z-20 shadow-lg" style={{ animationDelay: '1s' }}></div>
 
         {/* Slider */}
         <div className="relative h-full">
@@ -158,12 +158,12 @@ export default function Home() {
               <div className="animate-fade-in">
                 <div className="flex justify-center mb-6">
                   <div className="relative">
-                    <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300">
+                    <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-gray-400 to-gray-400 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300">
                       <svg className="w-8 h-8 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                       </svg>
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-400 rounded-full opacity-20 animate-ping"></div>
                   </div>
                 </div>
               </div>
@@ -178,7 +178,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up">
                 <Link
                   href="/schedule"
-                  className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-4 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 inline-flex items-center justify-center border border-white/20"
+                  className="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-gray-600 hover:to-gray-700 transition-all duration-300 shadow-2xl hover:shadow-3xl hover:scale-105 inline-flex items-center justify-center border border-white/20"
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -234,7 +234,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="py-16 md:py-24 px-4 bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+      <section className="py-16 md:py-24 px-4 bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
@@ -264,7 +264,7 @@ export default function Home() {
                 </div>
                 
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-rose-600 transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-gray-600 transition-colors duration-300">
                     {service.title}
                   </h3>
                   <p className="text-gray-600 mb-4">{service.description}</p>
@@ -272,7 +272,7 @@ export default function Home() {
                   <div className="space-y-2">
                     {service.features.map((feature, idx) => (
                       <div key={idx} className="flex items-center text-sm text-gray-600">
-                        <div className="w-2 h-2 bg-rose-400 rounded-full mr-3"></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full mr-3"></div>
                         <span>{feature}</span>
                       </div>
                     ))}
@@ -280,7 +280,7 @@ export default function Home() {
                   
                   <Link
                     href="/package"
-                    className="inline-block mt-6 w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl text-center group-hover:scale-105"
+                    className="inline-block mt-6 w-full bg-gradient-to-r from-gray-500 to-gray-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-gray-600 hover:to-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl text-center group-hover:scale-105"
                   >
                     Learn More
                   </Link>
@@ -307,7 +307,7 @@ export default function Home() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="text-center p-6 rounded-2xl hover:bg-rose-50 transition-all duration-300 hover:scale-105 animate-fade-in-up"
+                className="text-center p-6 rounded-2xl hover:bg-gray-50 transition-all duration-300 hover:scale-105 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="text-4xl mb-4">{feature.icon}</div>
@@ -320,7 +320,7 @@ export default function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 md:py-24 px-4 bg-gradient-to-br from-rose-500 to-pink-500">
+      <section className="py-16 md:py-24 px-4 bg-gradient-to-br from-gray-500 to-gray-600">
         <div className="container mx-auto max-w-4xl text-center">
           <div className="animate-fade-in">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
@@ -333,7 +333,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up">
               <Link
                 href="/schedule"
-                className="bg-white text-rose-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 inline-flex items-center justify-center"
+                className="bg-white text-gray-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 inline-flex items-center justify-center"
               >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />

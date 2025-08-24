@@ -75,10 +75,10 @@ export default function Account() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
       <section className="relative py-16 md:py-24 lg:py-32 px-4 overflow-hidden">
         <div className="relative z-10 container mx-auto text-center">
-          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-6 text-rose-600">
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-6 text-gray-600">
             My Account
           </h1>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed px-2 sm:px-4">
@@ -98,11 +98,11 @@ export default function Account() {
 
                 </div>
                 
-                {isLoadingUser ? (
-                  <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-rose-500 mx-auto"></div>
-                    <p className="text-gray-600 mt-2">Loading profile...</p>
-                  </div>
+                              {isLoadingUser ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-500 mx-auto"></div>
+                  <p className="text-gray-600 mt-2">Loading profile...</p>
+                </div>
                 ) : user ? (
                   <div className="space-y-4">
                     <div>
@@ -130,7 +130,7 @@ export default function Account() {
                     )}
                     <button
                       onClick={handleRefreshData}
-                      className="bg-rose-500 text-white px-4 py-2 rounded-lg hover:bg-rose-600 transition-colors"
+                      className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
                     >
                       Try Again
                     </button>
@@ -151,7 +151,7 @@ export default function Account() {
                 
                 {isLoadingBookings ? (
                   <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-rose-500 mx-auto"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-500 mx-auto"></div>
                     <p className="text-gray-600 mt-2">Loading appointments...</p>
                   </div>
                 ) : bookings && bookings.length > 0 ? (
@@ -160,13 +160,13 @@ export default function Account() {
                       <Link
                         key={booking.id}
                         href={`/booking/${booking.id}`}
-                        className="block border border-gray-200 rounded-lg p-4 hover:shadow-lg hover:border-rose-300 transition-all duration-200 cursor-pointer group"
+                        className="block border border-gray-200 rounded-lg p-4 hover:shadow-lg hover:border-gray-300 transition-all duration-200 cursor-pointer group"
                       >
                         <div className="flex justify-between items-start mb-2">
-                          <h3 className="font-semibold text-gray-800 group-hover:text-rose-600 transition-colors duration-200">
+                          <h3 className="font-semibold text-gray-800 group-hover:text-gray-600 transition-colors duration-200">
                             {booking.name}
                           </h3>
-                          <div className="flex items-center text-sm text-gray-500 group-hover:text-rose-500 transition-colors duration-200">
+                          <div className="flex items-center text-sm text-gray-500 group-hover:text-gray-500 transition-colors duration-200">
                             <span>View Details</span>
                             <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -219,7 +219,7 @@ export default function Account() {
              
                       <a
                         href="/schedule"
-                        className="inline-block bg-rose-500 text-white px-4 py-2 rounded-lg hover:bg-rose-600 transition-colors duration-200"
+                        className="inline-block bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200"
                       >
                         Book an Appointment
                       </a>

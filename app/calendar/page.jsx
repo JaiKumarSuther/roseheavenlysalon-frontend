@@ -95,16 +95,16 @@ export default function Calendar() {
     const isToday = toYmd(new Date()) === ymd;
     const hasEvents = counts[ymd] > 0;
     
-    let baseClass = "w-full h-full flex flex-col items-center justify-center p-2 text-sm font-medium transition-all duration-200 hover:bg-rose-50 hover:scale-105 cursor-pointer";
+    let baseClass = "w-full h-full flex flex-col items-center justify-center p-2 text-sm font-medium transition-all duration-200 hover:bg-gray-50 hover:scale-105 cursor-pointer";
     
     if (!isCurrentMonth) {
       baseClass += " text-gray-400";
     } else if (isSelected) {
-      baseClass += " bg-rose-500 text-white rounded-lg shadow-lg";
+      baseClass += " bg-gray-500 text-white rounded-lg shadow-lg";
     } else if (isToday) {
-      baseClass += " bg-rose-100 text-rose-700 rounded-lg border-2 border-rose-300";
+      baseClass += " bg-gray-100 text-gray-700 rounded-lg border-2 border-gray-300";
     } else if (hasEvents) {
-      baseClass += " text-rose-600 font-semibold bg-rose-50";
+      baseClass += " text-gray-600 font-semibold bg-gray-50";
     } else {
       baseClass += " text-gray-700";
     }
@@ -114,9 +114,9 @@ export default function Calendar() {
 
   const getEventTypeColor = (type) => {
     const colors = {
-      hair: "bg-rose-100 text-rose-800 border-rose-200",
-      nail: "bg-pink-100 text-pink-800 border-pink-200",
-      facial: "bg-purple-100 text-purple-800 border-purple-200",
+      hair: "bg-gray-100 text-gray-800 border-gray-200",
+      nail: "bg-gray-100 text-gray-800 border-gray-200",
+      facial: "bg-gray-100 text-gray-800 border-gray-200",
       massage: "bg-blue-100 text-blue-800 border-blue-200",
       default: "bg-gray-100 text-gray-800 border-gray-200"
     };
@@ -124,29 +124,29 @@ export default function Calendar() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 lg:py-32 px-4 overflow-hidden">
         {/* Background Pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 via-pink-50/50 to-purple-50/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 via-gray-100/50 to-gray-200/50"></div>
         
         {/* Floating Elements */}
-        <div className="absolute top-10 left-4 md:top-20 md:left-10 w-12 h-12 md:w-20 md:h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-bounce"></div>
-        <div className="absolute top-20 right-4 md:top-40 md:right-20 w-10 h-10 md:w-16 md:h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-10 left-4 md:bottom-20 md:left-20 w-8 h-8 md:w-12 md:h-12 bg-gradient-to-r from-rose-300 to-pink-300 rounded-full opacity-20 animate-bounce" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-10 left-4 md:top-20 md:left-10 w-12 h-12 md:w-20 md:h-20 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full opacity-20 animate-bounce"></div>
+        <div className="absolute top-20 right-4 md:top-40 md:right-20 w-10 h-10 md:w-16 md:h-16 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-10 left-4 md:bottom-20 md:left-20 w-8 h-8 md:w-12 md:h-12 bg-gradient-to-r from-gray-300 to-gray-400 rounded-full opacity-20 animate-bounce" style={{ animationDelay: '1s' }}></div>
 
         <div className="relative z-10 container mx-auto text-center">
           <div className="flex justify-center mb-4 md:mb-6 animate-fade-in">
             <div className="relative">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-r from-gray-400 to-gray-400 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300">
                 <svg className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-400 rounded-full opacity-20 animate-ping"></div>
             </div>
           </div>
-          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-6 text-rose-600 animate-fade-in-delay">
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-6 text-gray-600 animate-fade-in-delay">
             Appointment Calendar
           </h1>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed px-2 sm:px-4 animate-fade-in-delay">
@@ -172,9 +172,9 @@ export default function Calendar() {
                       setMonth(month - 1);
                     }
                   }}
-                  className="p-2 rounded-lg hover:bg-rose-50 transition-colors duration-200 hover:scale-110"
+                  className="p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 hover:scale-110"
                 >
-                  <svg className="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
@@ -196,7 +196,7 @@ export default function Calendar() {
                               setMonth(index + 1);
                               setIsMonthOpen(false);
                             }}
-                            className="block w-full px-4 py-2 text-left hover:bg-rose-50 transition-colors duration-200"
+                            className="block w-full px-4 py-2 text-left hover:bg-gray-50 transition-colors duration-200"
                           >
                             {name}
                           </button>
@@ -221,7 +221,7 @@ export default function Calendar() {
                               setYear(y);
                               setIsYearOpen(false);
                             }}
-                            className="block w-full px-4 py-2 text-left hover:bg-rose-50 transition-colors duration-200"
+                            className="block w-full px-4 py-2 text-left hover:bg-gray-50 transition-colors duration-200"
                           >
                             {y}
                           </button>
@@ -240,9 +240,9 @@ export default function Calendar() {
                       setMonth(month + 1);
                     }
                   }}
-                  className="p-2 rounded-lg hover:bg-rose-50 transition-colors duration-200 hover:scale-110"
+                  className="p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 hover:scale-110"
                 >
-                  <svg className="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -250,7 +250,7 @@ export default function Calendar() {
               
               <Link
                 href="/schedule"
-                className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 inline-flex items-center"
+                className="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-gray-600 hover:to-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 inline-flex items-center"
               >
                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -263,7 +263,7 @@ export default function Calendar() {
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               {isLoadingCounts && (
                 <div className="text-center py-4 mb-4">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-rose-500 mx-auto"></div>
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-500 mx-auto"></div>
                   <p className="text-gray-600 mt-2">Loading calendar data...</p>
                 </div>
               )}
@@ -308,7 +308,7 @@ export default function Calendar() {
                               const ymd = toYmd(date);
                               const count = counts[ymd] || 0;
                               return count > 0 ? (
-                                <span className="bg-rose-500 text-white px-1 py-0.5 rounded-full text-xs">
+                                <span className="bg-gray-500 text-white px-1 py-0.5 rounded-full text-xs">
                                   {count} {count === 1 ? 'Booking' : 'Bookings'}
                                 </span>
                               ) : (
@@ -338,7 +338,7 @@ export default function Calendar() {
                 
                 {isLoadingEvents ? (
                   <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-rose-500 mx-auto"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-500 mx-auto"></div>
                     <p className="text-gray-600 mt-2">Loading appointments...</p>
                   </div>
                 ) : events.length > 0 ? (
@@ -369,7 +369,7 @@ export default function Calendar() {
                     <p className="text-gray-600">No appointments scheduled for this date</p>
                     <Link
                       href="/schedule"
-                      className="inline-block mt-4 bg-rose-500 text-white px-4 py-2 rounded-lg hover:bg-rose-600 transition-colors duration-200 hover:scale-105"
+                      className="inline-block mt-4 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200 hover:scale-105"
                     >
                       Book an Appointment
                     </Link>
