@@ -249,7 +249,7 @@ export default function Home() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group animate-fade-in-up"
+                className="flex flex-col justify-between bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden group animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="relative h-48 overflow-hidden">
@@ -278,13 +278,15 @@ export default function Home() {
                     ))}
                   </div>
                   
-                  <Link
+                </div>
+                 <div className="p-6 pt-0">
+                 <Link
                     href="/package"
                     className="inline-block mt-6 w-full bg-gradient-to-r from-gray-500 to-gray-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-gray-600 hover:to-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl text-center group-hover:scale-105"
                   >
                     Learn More
                   </Link>
-                </div>
+                  </div>
               </div>
             ))}
           </div>
