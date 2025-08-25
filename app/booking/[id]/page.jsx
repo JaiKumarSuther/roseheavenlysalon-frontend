@@ -139,12 +139,22 @@ export default function BookingDetail() {
              </div>
 
                          {/* Booking Status */}
-             <div className="mb-8">
-               <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                 <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                 Confirmed
-               </div>
-             </div>
+                           <div className="mb-8">
+                <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
+                  booking.status === 0 ? 'bg-red-100 text-red-800' :
+                  booking.status === 2 ? 'bg-blue-100 text-blue-800' :
+                  'bg-yellow-100 text-yellow-800'
+                }`}>
+                  <div className={`w-2 h-2 rounded-full mr-2 ${
+                    booking.status === 0 ? 'bg-red-400' :
+                    booking.status === 2 ? 'bg-blue-400' :
+                    'bg-yellow-400'
+                  }`}></div>
+                  {booking.status === 0 ? 'Cancelled' :
+                   booking.status === 2 ? 'Completed' :
+                   'Pending'}
+                </div>
+              </div>
 
                            {/* Print Header */}
               <div className="print-booking-header">
@@ -209,10 +219,18 @@ export default function BookingDetail() {
                      <span className="font-medium text-gray-600">Duration:</span>
                      <span className="text-gray-800">~1-2 hours</span>
                    </div>
-                   <div className="flex justify-between items-center py-2 border-b border-gray-100 print-booking-info">
-                     <span className="font-medium text-gray-600">Status:</span>
-                     <span className="text-green-600 font-medium">Active</span>
-                   </div>
+                                       <div className="flex justify-between items-center py-2 border-b border-gray-100 print-booking-info">
+                      <span className="font-medium text-gray-600">Status:</span>
+                      <span className={`font-medium ${
+                        booking.status === 0 ? 'text-red-600' :
+                        booking.status === 2 ? 'text-blue-600' :
+                        'text-yellow-600'
+                      }`}>
+                        {booking.status === 0 ? 'Cancelled' :
+                         booking.status === 2 ? 'Completed' :
+                         'Pending'}
+                      </span>
+                    </div>
                  </div>
                </div>
             </div>
