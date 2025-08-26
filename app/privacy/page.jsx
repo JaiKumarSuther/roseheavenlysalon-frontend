@@ -48,7 +48,6 @@ export default function Privacy() {
                     <li>Book appointments through our website or phone</li>
                     <li>Create an account or sign up for our services</li>
                     <li>Contact us for customer support</li>
-                    <li>Provide feedback or reviews</li>
                     <li>Visit our salon and receive services</li>
                   </ul>
                   <p className="text-gray-700 mb-4">

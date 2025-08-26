@@ -38,6 +38,17 @@ export default function Account() {
     }
   }, [isAuthenticated, router, refetchUser, queryClient, initialize]);
 
+  // Poll for booking updates every 30 seconds
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const interval = setInterval(() => {
+      refetchBookings();
+    }, 30000); // 30 seconds
+
+    return () => clearInterval(interval);
+  }, [isAuthenticated, refetchBookings]);
+
   const handleRefreshData = () => {
     queryClient.invalidateQueries(['user']);
     queryClient.invalidateQueries(['bookings']);
@@ -95,7 +106,6 @@ export default function Account() {
               <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-white/20 shadow-soft">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-bold text-gray-800">Profile</h2>
-
                 </div>
                 
                               {isLoadingUser ? (
@@ -140,8 +150,8 @@ export default function Account() {
             </div>
 
             {/* Bookings Section */}
-            <div className="lg:col-span-2 min-h-[500px]">
-              <div className="bg-white/95 h-full backdrop-blur-sm rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-white/20 shadow-soft flex flex-col justify-between">
+            <div className="lg:col-span-2">
+              <div className="bg-white/95 h-full backdrop-blur-sm rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 border border-white/20 shadow-soft flex flex-col ">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-bold text-gray-800">My Appointments</h2>
                   <div className="text-xs text-gray-500">
@@ -192,20 +202,23 @@ export default function Account() {
                         <div className="mt-3 pt-2 border-t border-gray-100">
                           <div className="flex items-center justify-between">
                             <span className="text-xs text-gray-500">Booking ID: #{booking.id}</span>
-                                                         <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                               booking.status === 0 ? 'bg-red-100 text-red-800' :
-                               booking.status === 2 ? 'bg-blue-100 text-blue-800' :
-                               'bg-yellow-100 text-yellow-800'
-                             }`}>
-                               <div className={`w-1.5 h-1.5 rounded-full mr-1 ${
-                                 booking.status === 0 ? 'bg-red-400' :
-                                 booking.status === 2 ? 'bg-blue-400' :
-                                 'bg-yellow-400'
-                               }`}></div>
-                               {booking.status === 0 ? 'Cancelled' :
-                                booking.status === 2 ? 'Completed' :
-                                'Pending'}
-                             </span>
+                                                                                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                                booking.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                booking.status === 'completed' ? 'bg-blue-100 text-blue-800' :
+                                booking.status === 'confirmed' ? 'bg-green-100 text-green-800' :
+                                'bg-yellow-100 text-yellow-800'
+                              }`}>
+                                <div className={`w-1.5 h-1.5 rounded-full mr-1 ${
+                                  booking.status === 'cancelled' ? 'bg-red-400' :
+                                  booking.status === 'completed' ? 'bg-blue-400' :
+                                  booking.status === 'confirmed' ? 'bg-green-400' :
+                                  'bg-yellow-400'
+                                }`}></div>
+                                {booking.status === 'cancelled' ? 'Cancelled' :
+                                 booking.status === 'completed' ? 'Completed' :
+                                 booking.status === 'confirmed' ? 'Confirmed' :
+                                 'Pending'}
+                              </span>
                           </div>
                         </div>
                       </Link>
@@ -227,12 +240,12 @@ export default function Account() {
                     
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
              
-                      <a
+                      <Link
                         href="/schedule"
                         className="inline-block bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-200"
                       >
                         Book an Appointment
-                      </a>
+                      </Link>
             </div>
             </div>
                 )}

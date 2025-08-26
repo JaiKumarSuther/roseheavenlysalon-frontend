@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import useAuthStore from "../lib/auth-store";
+import { useGetMyBookings, useBookingStatusNotifications } from "../lib/hooks";
+import NotificationPanel from "./NotificationPanel";
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,6 +14,18 @@ export default function NavBar() {
   const pathname = usePathname();
   const { user, isAuthenticated, logout } = useAuthStore();
   const router = useRouter();
+  
+  // Notification system for authenticated users
+  const { data: bookings, refetch: refetchBookings } = useGetMyBookings();
+  const {
+    notifications,
+    unreadCount,
+    markNotificationAsRead,
+    clearNotifications,
+    forceRefreshNotifications
+  } = useBookingStatusNotifications(bookings);
+
+
 
   const handleLogout = () => {
     logout();
@@ -21,6 +35,27 @@ export default function NavBar() {
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  // Poll for booking updates every 30 seconds for authenticated users
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const interval = setInterval(async () => {
+      try {
+        // Refetch bookings to check for status updates
+        // This will trigger the notification system if there are changes
+        await refetchBookings();
+        // Also force refresh notifications to ensure they're up to date
+        forceRefreshNotifications();
+      } catch (error) {
+        console.error('Error polling for booking updates:', error);
+      }
+    }, 30000); // 30 seconds
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isAuthenticated, refetchBookings, forceRefreshNotifications]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -99,6 +134,18 @@ export default function NavBar() {
               </Link>
             ))}
             
+            {/* Notification Panel for authenticated users */}
+            {isAuthenticated && (
+              <NotificationPanel
+                notifications={notifications}
+                unreadCount={unreadCount}
+                markNotificationAsRead={markNotificationAsRead}
+                clearNotifications={clearNotifications}
+                onRefresh={refetchBookings}
+                forceRefreshNotifications={forceRefreshNotifications}
+              />
+            )}
+            
             {/* Auth Links */}
             {authLinks.map((link) => (
               link.onClick ? (
@@ -163,6 +210,20 @@ export default function NavBar() {
                 {link.label}
               </Link>
             ))}
+            
+            {/* Notification Panel for mobile */}
+            {isAuthenticated && (
+              <div className="px-4 py-3">
+                <NotificationPanel
+                  notifications={notifications}
+                  unreadCount={unreadCount}
+                  markNotificationAsRead={markNotificationAsRead}
+                  clearNotifications={clearNotifications}
+                  onRefresh={refetchBookings}
+                  forceRefreshNotifications={forceRefreshNotifications}
+                />
+              </div>
+            )}
             
             {/* Auth Links */}
             {authLinks.map((link) => (

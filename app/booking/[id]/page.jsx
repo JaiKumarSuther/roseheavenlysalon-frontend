@@ -141,17 +141,20 @@ export default function BookingDetail() {
                          {/* Booking Status */}
                            <div className="mb-8">
                 <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
-                  booking.status === 0 ? 'bg-red-100 text-red-800' :
-                  booking.status === 2 ? 'bg-blue-100 text-blue-800' :
+                  booking.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                  booking.status === 'completed' ? 'bg-blue-100 text-blue-800' :
+                  booking.status === 'confirmed' ? 'bg-green-100 text-green-800' :
                   'bg-yellow-100 text-yellow-800'
                 }`}>
                   <div className={`w-2 h-2 rounded-full mr-2 ${
-                    booking.status === 0 ? 'bg-red-400' :
-                    booking.status === 2 ? 'bg-blue-400' :
+                    booking.status === 'cancelled' ? 'bg-red-400' :
+                    booking.status === 'completed' ? 'bg-blue-400' :
+                    booking.status === 'confirmed' ? 'bg-green-400' :
                     'bg-yellow-400'
                   }`}></div>
-                  {booking.status === 0 ? 'Cancelled' :
-                   booking.status === 2 ? 'Completed' :
+                  {booking.status === 'cancelled' ? 'Cancelled' :
+                   booking.status === 'completed' ? 'Completed' :
+                   booking.status === 'confirmed' ? 'Confirmed' :
                    'Pending'}
                 </div>
               </div>
@@ -222,12 +225,14 @@ export default function BookingDetail() {
                                        <div className="flex justify-between items-center py-2 border-b border-gray-100 print-booking-info">
                       <span className="font-medium text-gray-600">Status:</span>
                       <span className={`font-medium ${
-                        booking.status === 0 ? 'text-red-600' :
-                        booking.status === 2 ? 'text-blue-600' :
+                        booking.status === 'cancelled' ? 'text-red-600' :
+                        booking.status === 'completed' ? 'text-blue-600' :
+                        booking.status === 'confirmed' ? 'text-green-600' :
                         'text-yellow-600'
                       }`}>
-                        {booking.status === 0 ? 'Cancelled' :
-                         booking.status === 2 ? 'Completed' :
+                        {booking.status === 'cancelled' ? 'Cancelled' :
+                         booking.status === 'completed' ? 'Completed' :
+                         booking.status === 'confirmed' ? 'Confirmed' :
                          'Pending'}
                       </span>
                     </div>

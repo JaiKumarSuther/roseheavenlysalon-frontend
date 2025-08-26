@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
 import { useCreateBooking, useGetUser } from "../../lib/hooks";
 import useAuthStore from "../../lib/auth-store";
 
@@ -350,7 +351,7 @@ export default function Schedule() {
               {!user && (
                 <div className="mt-3 inline-block bg-blue-50 border border-blue-200 rounded-lg px-4 py-2">
                   <p className="text-sm text-blue-600">
-                    💡 <a href="/login" className="text-blue-700 underline">Login</a> to save bookings to your account
+                    💡 <Link href="/login" className="text-blue-700 underline">Login</Link> to save bookings to your account
                   </p>
                 </div>
               )}

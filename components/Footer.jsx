@@ -81,8 +81,8 @@ export default function Footer() {
             <div className="space-y-3">
               {[
                 { href: "/about", label: "About Us" },
-                { href: "#privacy", label: "Privacy Policy" },
-                { href: "#terms", label: "Terms of Use" },
+                { href: "/privacy", label: "Privacy Policy" },
+                { href: "/terms", label: "Terms of Use" },
               ].map((link, index) => (
                 <div key={link.href}>
                   <Link 
