@@ -33,6 +33,10 @@ export default function Login() {
       if (errorMessage.includes('verify your email address')) {
         setUnverifiedEmail(data.email);
         setShowVerificationMessage(true);
+      } else if (errorMessage.includes('admin portal')) {
+        // Admin users should be redirected to admin portal
+        alert('Admin users must login through the admin portal. Redirecting...');
+        window.location.href = 'http://localhost:3002';
       }
       // Other errors are handled by the mutation
     }
